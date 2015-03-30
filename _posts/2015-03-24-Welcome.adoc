@@ -1,3 +1,3 @@
 = Welcome !
 
-This blog shows the latest news about the fw4spl framework.   
+This blog shows the latest news about the https://github.com/fw4spl-org[FW4SPL] framework. It is still under development and the look and feel is likely to be improved in the next weeks.

@@ -1,0 +1,3 @@
+= Documentation online
+
+The new documentation for https://github.com/fw4spl-org[FW4SPL] is now available on http://fw4spl-doc.readthedocs.org/en/fw4spl_0.10.1/[ReadTheDocs]. Everyone starting with FW4SPL should use this up-to-date documentation instead of the former https://code.google.com/p/fw4spl/wiki/Documentation[googlecode] which is obsolete and will be removed soon.

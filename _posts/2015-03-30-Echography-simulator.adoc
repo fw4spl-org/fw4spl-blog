@@ -1,0 +1,5 @@
+= Echography simulator
+
+:hp-tags: echography, simulator, hackathon, mobile
+
+FW4SPL has been used successfully last week at http://hackinghealth.camp/fr/[Hacking Health Camp 2015] in Strasbourg. An echography simulator, using a smartphone as a probe, has been developed in 50 hours. The code is open and can be found on https://bitbucket.org/fw4splorg/echo101[bitbucket].

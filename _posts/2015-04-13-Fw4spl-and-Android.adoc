@@ -1,0 +1,168 @@
+= Fw4spl and Android
+
+:hp-tags: Android, NDK, Open Source, fw4spl, C++
+
+== Great news !
+
+Now, it is possible to develop an Android application with our framewrok.
+Most part of the developement mechanism is exactly the same as the Desktop. Then you can use the existing code and you will have to write only few specific parts for Android (e.g: access to the camera).
+
+This post will introduce how to install the environnement and compile a simple mobile apps.
+
+=== Environment setup
+
+The followings tools are required:
+
+
+- http://www.oracle.com/technetwork/java/javase/downloads/index.html[JDK 6] or newer( JRE is not sufficent )
+- http://ant.apache.org/bindownload.cgi[Apache Ant 1.8] or newer
+
+WARNING: In some Linux distributions, the JDK 1.4 and/or a GNU compiler for Java are installed but the are not supported for the Android devlopment.
+
+WARNING: You must have http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[JDK 8] or newer for OSX 10.10 (Yosemite).
+
+==== The SDK
+
+The SDK is a set of libraries  and developement tools used to build, test and debug an Android application.
+The following package only contains basic tools of SDK. It not include any API version (Android Platform) and not the whole tools yu need to devlop an application. 
+
+* Dowload the SDK package:
+** http://dl.google.com/android/android-sdk_r23.0.2-macosx.zip[OSX]
+** http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz[Linux]
+** http://dl.google.com/android/android-sdk_r23.0.2-windows.zip[Windows]
+
+* Add the your environment variable ANDROID_SDK:
++
+_On Linux and OSX :_ 
++
+[source,bash]
+export ANDROID_SDK=/ABSOLUTE/PATH/TO/THE/ANDROID_SDK
+
+* The **SDK Manager** allows to manage easly the donwload and the managmenent of SDK version and developement tools.
+** On Windows, _Manager.exe_ is in the SDK folder.
+** On Linux and OSX, excute de command 
++
+[source,bash]
+./tool/android in the SDK folder
+
+
+.SDK Manager
+image::https://raw.githubusercontent.com/FredChamp/hubpress-test/gh-pages/images/sdk_manager.png[]
+
+* It's possible to update the SDK with the following command line:
++
+[source,bash]
+ ./tools/android update sdk -no-ui
+
+To be able to develop an Android application you need to download at least one version of the API and one version of "Platform-tools which contains all the build tools (adb, etc...) whose ore updated independently of the sdk.
+
+TIP: More information http://developer.android.com/tools/help/sdk-manager.html[here]
+
+IMPORTANT: It is usefull for Windows users to check if **adb** is correctly installed using peripheric manager. +
+In that case, update it using the installation process of your device drivers.
+
+.Perepheric manager
+image::https://raw.githubusercontent.com/FredChamp/hubpress-test/gh-pages/images/WindowPeriphericManager.png[]
+ 
+ 
+
+==== The NDK
+
+This kit allows to develop Android application using native code (C/C++).
+The API is very light then it is using only as an entry point of your application.
+Also, it contains some "header system" for which the support is garented on the last releases and with which your libraries have to link:
+
+* libc (C library) headers
+* libm (math library) headers
+* JNI interface headers
+* libz (Zlib compression) headers
+* liblog (Android logging) header
+* OpenGL ES 1.1 and OpenGL ES 2.0 (3D graphics libraries) headers
+* libjnigraphics (Pixel buffer access) header (for Android 2.2 and above).
+* A Minimal set of headers for C++ support
+* OpenSL ES native audio libraries
+* Android native application APIS
+
+Also, the ndk provides a build system that allows to compile without care about toolchain/CPU/ABI (ABI = Apllication Binary Interface).
+You must have the last version of the SDK. Indeed, the NDK is compatible with older version of the API but not the "Platforms tools".
+
+* Download the NDK https://developer.android.com/tools/sdk/ndk/index.html[here]
+* On linux and OSX:
+** Open a terminal
+** Go to the NDK repository
+** Execute the command _chmod a+x_ on the download package.
+** Execite the binary
++
+example:
++
+[source,bash]
+ndk$ chmod a+x android-ndk-r10c-darwin-x86_64.bin
+ndk$ ./android-ndk-r10c-darwin-x86_64.bin 
+
+* On Windows:
+** Go to the NDK repository
+** Double click on the downloaded file
+
+TIP: More information https://developer.android.com/tools/sdk/ndk/index.html[here]
+
+
+=== Fw4spl configuration
+
+There are some specific things to respect in order to use fw4spl for Android developement.
+
+The **API 21** (Lolipop) is not yet supported. Indeed for the platform android-21 the <asm/page.h> includes is missing n the limits.h file  (NDK/platforms/android-21/arch-arm*/include) which causes a compilation error of boost thread.
+
+For the same reason, API equal or lower than 8 (Froyo) are not supported.
+
+Then it is recommended to install thanks to the SDK the following versions of:
+
+* **Tools**:
+** Android SDK Tools 23.0.5
+** Android SDK Platform-Tools 21
+** Android SDk Build-tools 21.0.2
+* **Android 4.4.2(API 19)**:
+** SDK Platform 19
+* **Qt 5.x** needs the following API versions:
+** API 10 for 11 for QtMultimedia
+** API 16 for QtBase
+
+You also need to set the following variables to your environment:
+
+[source,bash]
+ANDROID_NDK=/PATH/TO/NDK
+ANDROID_SDK=/PATH/TO/SDK
+JAVA_HOME=/PATH/TO/JDK ( On Window the path to the JDK has to be set in PATH) 
+
+WARNING: JAVA_HOME is the root folder of th JDK ( do not set the bin folder to JAVA_HOME )
+
+=== The toolchain
+
+TIP: Last version on github should support build in 64 bits. But that has not been tested with fw4spl.
+
+Our toolchain version is a modified one of the github user: https://github.com/taka-no-me/android-cmake[taka-no-me] (it's a fork of the OpenCV project).
+This toolchain allows to cross-compile a C++ project for Android just by specify some usefull variables (compiler, system, etc...).
+
+* Get the toolcahin:
+[source,bash]
+git clone https://github.com/fw4spl-org/android-cmake.git
+
+Our main modification are:
+
+* The removal of the Standalone toolchain support.
+* Now, you just need to sepcify the _INSTALL_PREFIX_PATH_, other paths will be set automatiquely.
+* You can specify the toolchain dynamicly via **ccmake** by adding in your main CMakeList the following lines:
+
+[source,bash]
+set(CROSS_COMPILING OFF CACHE BOOL "Configure cross compilation")
+if(CROSS_COMPILING AND NOT CMAKE_TOOLCHAIN_FILE )
+    execute_process(COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/CMake/android/clean_all.cmake)
+    set(CMAKE_TOOLCHAIN_FILE CACHE FILEPATH "Path to the toolchain file")
+ endif()
+ 
+ IMPORTANT: Do not forget to check the _CROSS_COMPILING varaible and to specify the toolchain path
+ 
+.ccmake example (OSX and Linux)
+image::https://raw.githubusercontent.com/FredChamp/hubpress-test/gh-pages/images/ccmake_terminal.png[]
+
+.cmake-gui example (OSX and Windows)
+image::https://raw.githubusercontent.com/FredChamp/hubpress-test/gh-pages/images/cmake-gui.png[]

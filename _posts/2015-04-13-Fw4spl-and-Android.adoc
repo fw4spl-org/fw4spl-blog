@@ -4,7 +4,7 @@
 
 == Great news !
 
-Now, it is possible to develop an Android application with our framewrok.
+Now, it is possible to develop an Android application with our framework.
 Most part of the developement mechanism is exactly the same as the Desktop. Then you can use the existing code and you will have to write only few specific parts for Android (e.g: access to the camera).
 
 This post will introduce how to install the environnement and compile a simple mobile apps.

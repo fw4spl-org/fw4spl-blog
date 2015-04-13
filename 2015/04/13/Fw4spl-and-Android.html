@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Fw4spl and Android</title>
+    <meta name="description" content="" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/assets/css/screen.css?v=1.0.0" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+
+    <link rel="canonical" href="https://fw4spl-org.github.io/fw4spl-blog/2015/04/13/Fw4spl-and-Android.html" />
+    
+    <meta property="og:site_name" content="FW4SPL" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Fw4spl and Android" />
+    <meta property="og:description" content="Great news ! Now, it is possible to develop an Android application with our framewrok. Most part of the developement mechanism is exactly the same as the Desktop. Then you can use the existing code and you will have to write..." />
+    <meta property="og:url" content="https://fw4spl-org.github.io/fw4spl-blog/2015/04/13/Fw4spl-and-Android.html" />
+    <meta property="article:published_time" content="2015-04-12T22:00:00.000Z" />
+    <meta property="article:modified_time" content="2015-04-13T07:43:49.722Z" />
+    <meta property="article:tag" content="Android" />
+    <meta property="article:tag" content="NDK" />
+    <meta property="article:tag" content="Open Source" />
+    <meta property="article:tag" content="fw4spl" />
+    <meta property="article:tag" content="C++" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Fw4spl and Android" />
+    <meta name="twitter:description" content="Great news ! Now, it is possible to develop an Android application with our framewrok. Most part of the developement mechanism is exactly the same as the Desktop. Then you can use the existing code and you will have to write..." />
+    <meta name="twitter:url" content="https://fw4spl-org.github.io/fw4spl-blog/2015/04/13/Fw4spl-and-Android.html" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "FW4SPL",
+    "author": {
+        "@type": "Person",
+        "name": "Frédéric Champ",
+        "image": "https://avatars.githubusercontent.com/u/2893494?v=3",
+        "url": "undefined/author/undefined",
+        "sameAs": ""
+    },
+    "headline": "Fw4spl and Android",
+    "url": "https://fw4spl-org.github.io/fw4spl-blog/2015/04/13/Fw4spl-and-Android.html",
+    "datePublished": "2015-04-12T22:00:00.000Z",
+    "dateModified": "2015-04-13T07:43:49.722Z",
+    "keywords": "Android,  NDK,  Open Source,  fw4spl,  C++",
+    "description": "Great news ! Now, it is possible to develop an Android application with our framewrok. Most part of the developement mechanism is exactly the same as the Desktop. Then you can use the existing code and you will have to write..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost ?" />
+    <link rel="alternate" type="application/rss+xml" title="FW4SPL" href="https://fw4spl-org.github.io/fw4spl-blog/rss" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+</head>
+<body class="post-template tag-Android tag-NDK tag-Open-Source tag-fw4spl tag-C">
+
+    
+
+
+<header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="https://fw4spl-org.github.io/fw4spl-blog">Home</a>
+        <!-- <a class="subscribe-button icon-feed" href="https://fw4spl-org.github.io/fw4spl-blog/rss/">Subscribe</a> -->
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post tag-Android tag-NDK tag-Open-Source tag-fw4spl tag-C">
+
+        <header class="post-header">
+            <h1 class="post-title">Fw4spl and Android</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2015-04-13">13 April 2015</time>  on <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/Android">Android</a>, <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/NDK"> NDK</a>, <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/Open-Source"> Open Source</a>, <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/fw4spl"> fw4spl</a>, <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/C"> C++</a>
+            </section>
+        </header>
+
+        <section class="post-content">
+            <div class="sect1">
+<h2 id="_great_news">Great news !</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now, it is possible to develop an Android application with our framewrok.
+Most part of the developement mechanism is exactly the same as the Desktop. Then you can use the existing code and you will have to write only few specific parts for Android (e.g: access to the camera).</p>
+</div>
+<div class="paragraph">
+<p>This post will introduce how to install the environnement and compile a simple mobile apps.</p>
+</div>
+<div class="sect2">
+<h3 id="_environment_setup">Environment setup</h3>
+<div class="paragraph">
+<p>The followings tools are required:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK 6</a> or newer( JRE is not sufficent )</p>
+</li>
+<li>
+<p><a href="http://ant.apache.org/bindownload.cgi">Apache Ant 1.8</a> or newer</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+In some Linux distributions, the JDK 1.4 and/or a GNU compiler for Java are installed but the are not supported for the Android devlopment.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+You must have <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 8</a> or newer for OSX 10.10 (Yosemite).
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_the_sdk">The SDK</h4>
+<div class="paragraph">
+<p>The SDK is a set of libraries  and developement tools used to build, test and debug an Android application.
+The following package only contains basic tools of SDK. It not include any API version (Android Platform) and not the whole tools yu need to devlop an application.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Dowload the SDK package:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://dl.google.com/android/android-sdk_r23.0.2-macosx.zip">OSX</a></p>
+</li>
+<li>
+<p><a href="http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz">Linux</a></p>
+</li>
+<li>
+<p><a href="http://dl.google.com/android/android-sdk_r23.0.2-windows.zip">Windows</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Add the your environment variable ANDROID_SDK:</p>
+<div class="paragraph">
+<p><em>On Linux and OSX :</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">export ANDROID_SDK=/ABSOLUTE/PATH/TO/THE/ANDROID_SDK</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>The <strong>SDK Manager</strong> allows to manage easly the donwload and the managmenent of SDK version and developement tools.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>On Windows, <em>Manager.exe</em> is in the SDK folder.</p>
+</li>
+<li>
+<p>On Linux and OSX, excute de command</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/FredChamp/hubpress-test/gh-pages/images/sdk_manager.png" alt="sdk manager.png">
+</div>
+<div class="title">Figure 1. SDK Manager</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It&#8217;s possible to update the SDK with the following command line:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash"> ./tools/android update sdk -no-ui</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To be able to develop an Android application you need to download at least one version of the API and one version of "Platform-tools which contains all the build tools (adb, etc&#8230;&#8203;) whose ore updated independently of the sdk.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+More information <a href="http://developer.android.com/tools/help/sdk-manager.html">here</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+It is usefull for Windows users to check if <strong>adb</strong> is correctly installed using peripheric manager.<br>
+In that case, update it using the installation process of your device drivers.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/FredChamp/hubpress-test/gh-pages/images/WindowPeriphericManager.png" alt="WindowPeriphericManager.png">
+</div>
+<div class="title">Figure 2. Perepheric manager</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_the_ndk">The NDK</h4>
+<div class="paragraph">
+<p>This kit allows to develop Android application using native code (C/C++).
+The API is very light then it is using only as an entry point of your application.
+Also, it contains some "header system" for which the support is garented on the last releases and with which your libraries have to link:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>libc (C library) headers</p>
+</li>
+<li>
+<p>libm (math library) headers</p>
+</li>
+<li>
+<p>JNI interface headers</p>
+</li>
+<li>
+<p>libz (Zlib compression) headers</p>
+</li>
+<li>
+<p>liblog (Android logging) header</p>
+</li>
+<li>
+<p>OpenGL ES 1.1 and OpenGL ES 2.0 (3D graphics libraries) headers</p>
+</li>
+<li>
+<p>libjnigraphics (Pixel buffer access) header (for Android 2.2 and above).</p>
+</li>
+<li>
+<p>A Minimal set of headers for C++ support</p>
+</li>
+<li>
+<p>OpenSL ES native audio libraries</p>
+</li>
+<li>
+<p>Android native application APIS</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Also, the ndk provides a build system that allows to compile without care about toolchain/CPU/ABI (ABI = Apllication Binary Interface).
+You must have the last version of the SDK. Indeed, the NDK is compatible with older version of the API but not the "Platforms tools".</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Download the NDK <a href="https://developer.android.com/tools/sdk/ndk/index.html">here</a></p>
+</li>
+<li>
+<p>On linux and OSX:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Open a terminal</p>
+</li>
+<li>
+<p>Go to the NDK repository</p>
+</li>
+<li>
+<p>Execute the command <em>chmod a+x</em> on the download package.</p>
+</li>
+<li>
+<p>Execite the binary</p>
+<div class="paragraph">
+<p>example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">ndk$ chmod a+x android-ndk-r10c-darwin-x86_64.bin
+ndk$ ./android-ndk-r10c-darwin-x86_64.bin</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>On Windows:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Go to the NDK repository</p>
+</li>
+<li>
+<p>Double click on the downloaded file</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+More information <a href="https://developer.android.com/tools/sdk/ndk/index.html">here</a>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fw4spl_configuration">Fw4spl configuration</h3>
+<div class="paragraph">
+<p>There are some specific things to respect in order to use fw4spl for Android developement.</p>
+</div>
+<div class="paragraph">
+<p>The <strong>API 21</strong> (Lolipop) is not yet supported. Indeed for the platform android-21 the &lt;asm/page.h&gt; includes is missing n the limits.h file  (NDK/platforms/android-21/arch-arm*/include) which causes a compilation error of boost thread.</p>
+</div>
+<div class="paragraph">
+<p>For the same reason, API equal or lower than 8 (Froyo) are not supported.</p>
+</div>
+<div class="paragraph">
+<p>Then it is recommended to install thanks to the SDK the following versions of:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Tools</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Android SDK Tools 23.0.5</p>
+</li>
+<li>
+<p>Android SDK Platform-Tools 21</p>
+</li>
+<li>
+<p>Android SDk Build-tools 21.0.2</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Android 4.4.2(API 19)</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>SDK Platform 19</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Qt 5.x</strong> needs the following API versions:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>API 10 for 11 for QtMultimedia</p>
+</li>
+<li>
+<p>API 16 for QtBase</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You also need to set the following variables to your environment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">ANDROID_NDK=/PATH/TO/NDK
+ANDROID_SDK=/PATH/TO/SDK
+JAVA_HOME=/PATH/TO/JDK ( On Window the path to the JDK has to be set in PATH)</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+JAVA_HOME is the root folder of th JDK ( do not set the bin folder to JAVA_HOME )
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_toolchain">The toolchain</h3>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Last version on github should support build in 64 bits. But that has not been tested with fw4spl.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Our toolchain version is a modified one of the github user: <a href="https://github.com/taka-no-me/android-cmake">taka-no-me</a> (it&#8217;s a fork of the OpenCV project).
+This toolchain allows to cross-compile a C++ project for Android just by specify some usefull variables (compiler, system, etc&#8230;&#8203;).</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Get the toolcahin:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">git clone https://github.com/fw4spl-org/android-cmake.git</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Our main modification are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The removal of the Standalone toolchain support.</p>
+</li>
+<li>
+<p>Now, you just need to sepcify the <em>INSTALL_PREFIX_PATH</em>, other paths will be set automatiquely.</p>
+</li>
+<li>
+<p>You can specify the toolchain dynamicly via <strong>ccmake</strong> by adding in your main CMakeList the following lines:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">set(CROSS_COMPILING OFF CACHE BOOL "Configure cross compilation")
+if(CROSS_COMPILING AND NOT CMAKE_TOOLCHAIN_FILE )
+    execute_process(COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/CMake/android/clean_all.cmake)
+    set(CMAKE_TOOLCHAIN_FILE CACHE FILEPATH "Path to the toolchain file")
+ endif()</code></pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>IMPORTANT: Do not forget to check the _CROSS_COMPILING varaible and to specify the toolchain path</pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/FredChamp/hubpress-test/gh-pages/images/ccmake_terminal.png" alt="ccmake terminal.png">
+</div>
+<div class="title">Figure 3. ccmake example (OSX and Linux)</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/FredChamp/hubpress-test/gh-pages/images/cmake-gui.png" alt="cmake gui.png">
+</div>
+<div class="title">Figure 4. cmake-gui example (OSX and Windows)</div>
+</div>
+</div>
+</div>
+</div>
+        </section>
+
+        <footer class="post-footer">
+
+
+            <figure class="author-image">
+                <a class="img" href="" style="background-image: url(https://avatars.githubusercontent.com/u/2893494?v=3)"><span class="hidden">Frédéric Champ's Picture</span></a>
+            </figure>
+
+            <section class="author">
+                <h4><a href="">Frédéric Champ</a></h4>
+
+                    <p>Read <a href="">more posts</a> by this author.</p>
+                <div class="author-meta">
+                    <span class="author-location icon-location">Strasbourg</span>
+                    
+                </div>
+            </section>
+
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="https://twitter.com/share?text=Fw4spl%20and%20Android&amp;url=https://fw4spl-org.github.io/fw4spl-blog/2015/04/13/Fw4spl-and-Android.html"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://fw4spl-org.github.io/fw4spl-blog/2015/04/13/Fw4spl-and-Android.html"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https://fw4spl-org.github.io/fw4spl-blog/2015/04/13/Fw4spl-and-Android.html"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+
+        </footer>
+
+
+        <section class="post-comments">
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+          var disqus_shortname = 'fw4spl'; // required: replace example with your forum shortname
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </section>
+
+
+    </article>
+
+</main>
+
+
+
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="https://fw4spl-org.github.io/fw4spl-blog">FW4SPL</a> &copy; 2015</section>
+        <section class="poweredby">Proudly published with <a href="http://hubpress.io">HubPress</a></section>
+    </footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();      
+      </script>
+
+    <script type="text/javascript" src="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/assets/js/jquery.fitvids.js?v=1.0.0"></script>
+    <script type="text/javascript" src="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/assets/js/index.js?v=1.0.0"></script>
+
+</body>
+</html>

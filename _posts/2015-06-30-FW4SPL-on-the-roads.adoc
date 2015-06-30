@@ -1,0 +1,27 @@
+= FW4SPL on the roads
+:published_at: 2015-06-30
+:hp-tags: fw4spl, conference
+
+FW4SPL team is on tour !!
+
+We will show our latest work with the framework on http://devlog.cnrs.fr/jdev2015[JDEV] and https://2015.rmll.info/[RMLL].
+
+==== JDev (30 june - 3 july, Bordeaux - France)
+
+JDEV (Journée nationales du DEVeloppement logiciel) 2015 will take place at http://enseirb-matmeca.bordeaux-inp.fr/plan-dacces-ecole[Bordeaux INP - ENSEIRB-MATMECA].
+
+We will present a http://devlog.cnrs.fr/_media/jdev2015/poster_jdev2015_fw4spl_emilie_harquel.pdf?id=jdev2015%3Aposters&cache=cache[poster] with our latest work with FW4SPL, and we will discuss on several topics like :
+
+* Workflow to configure/build/test with docker/saltstack/jenkins http://devlog.cnrs.fr/jdev2015/t6#présentations (see section T6.P7 )
+* Advanced android development with the ndk jni and cmake http://devlog.cnrs.fr/jdev2015/t1.gt01
+* Tools for continuous integration http://devlog.cnrs.fr/jdev2015/t6.gt02
+
+
+==== RMLL (4 july - 10 july, Beauvais - France)
+
+The Libre Software Meeting (in French: Rencontres Mondiales du Logiciel Libre, or RMLL) are a series of friendly and non-commercial lectures, workshops, and round tables on Libre Software and its uses. These meetings take place yearly in July —each year guested by a new city— and have already hosted hundreds of lectures and seen thousands of participants (individuals or non-profit organizations).
+
+We will do a 40min https://2015.rmll.info/fw4spl-un-framework-pour-construire-des-applications-basees-sur-l[speech] on FW4SPL and on it's latest news.
+
+
+See you there !

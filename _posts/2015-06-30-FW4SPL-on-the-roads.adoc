@@ -1,5 +1,4 @@
 = FW4SPL on the roads
-:published_at: 2015-06-30
 :hp-tags: fw4spl, conference
 
 FW4SPL team is on tour !!

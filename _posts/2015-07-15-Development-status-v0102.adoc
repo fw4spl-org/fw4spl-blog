@@ -1,0 +1,24 @@
+= Development status - v0.10.2
+
+
+Hi folks,
+
+Here is a small update for people interested in trying the latest version of fw4spl.
+
+The current stable version is 0.10.1. We are currently working on the version 0.10.2. While 0.10.1 didn't bring deep changes, the version 0.10.2 is much more ambitious. 
+
+For instance we removed the old messaging system. Thus, the `IService::receive()` method no longer exists and *objects messages* were all deleted. Communication is now only done via *signals/slots*, which is much clearer and simpler. 
+
+Moreover, creating and editing the *profile.xml* was quite redundant with maintaining the dependencies in *Properties.cmake*. Thus this file is now automatically generated through CMake. Also you no longer have to start bundles manually, this is specified in the *Properties.cmake* file of the bundle.
+
+The documentation for this new branch has been generated on http://fw4spl-doc.readthedocs.org/en/fw4spl_0.10.2/[ReadTheDocs].
+
+However to try out this branch, you need a patch repository as it has not been approved yet by the fw4spl board. But no major change should now occur. This repository is only available on https://bitbucket.org/fw4splorg/fw4spl-patches[Bitbucket]. You can clone both the source repository and the patch repository with a single command :
+
+`hg qclone ssh://hg@bitbucket.org/fw4splorg/fw4spl-patches`
+
+Then, be sure to switch to the branch *fw4spl_0.10.2* in both repositories. Do the same for *fw4spl-ext* if you use it.
+
+If you're stuck somewhere, you can request some support at *fw4spl at gmail.com*.
+
+

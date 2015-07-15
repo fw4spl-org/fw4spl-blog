@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Development status - v0.10.2</title>
+    <meta name="description" content="" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/assets/css/screen.css?v=1.0.0" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+
+    <link rel="canonical" href="https://fw4spl-org.github.io/fw4spl-blog/2015/07/15/Development-status-v0102.html" />
+    
+    <meta property="og:site_name" content="FW4SPL" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Development status - v0.10.2" />
+    <meta property="og:description" content="Hi folks, Here is a small update for people interested in trying the latest version of fw4spl. The current stable version is 0.10.1. We are currently working on the version 0.10.2. While 0.10.1 didn&amp;..." />
+    <meta property="og:url" content="https://fw4spl-org.github.io/fw4spl-blog/2015/07/15/Development-status-v0102.html" />
+    <meta property="article:published_time" content="2015-07-14T22:00:00.000Z" />
+    <meta property="article:modified_time" content="2015-07-15T10:37:03.136Z" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Development status - v0.10.2" />
+    <meta name="twitter:description" content="Hi folks, Here is a small update for people interested in trying the latest version of fw4spl. The current stable version is 0.10.1. We are currently working on the version 0.10.2. While 0.10.1 didn&amp;..." />
+    <meta name="twitter:url" content="https://fw4spl-org.github.io/fw4spl-blog/2015/07/15/Development-status-v0102.html" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "FW4SPL",
+    "author": {
+        "@type": "Person",
+        "image": "https://avatars.githubusercontent.com/u/8638653?v=3",
+        "url": "undefined/author/undefined"
+    },
+    "headline": "Development status - v0.10.2",
+    "url": "https://fw4spl-org.github.io/fw4spl-blog/2015/07/15/Development-status-v0102.html",
+    "datePublished": "2015-07-14T22:00:00.000Z",
+    "dateModified": "2015-07-15T10:37:03.136Z",
+    "description": "Hi folks, Here is a small update for people interested in trying the latest version of fw4spl. The current stable version is 0.10.1. We are currently working on the version 0.10.2. While 0.10.1 didn&amp;..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost ?" />
+    <link rel="alternate" type="application/rss+xml" title="FW4SPL" href="https://fw4spl-org.github.io/fw4spl-blog/rss" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+</head>
+<body class="post-template">
+
+    
+
+
+<header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="https://fw4spl-org.github.io/fw4spl-blog">Home</a>
+        <!-- <a class="subscribe-button icon-feed" href="https://fw4spl-org.github.io/fw4spl-blog/rss/">Subscribe</a> -->
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Development status - v0.10.2</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2015-07-15">15 July 2015</time> 
+            </section>
+        </header>
+
+        <section class="post-content">
+            <div class="paragraph">
+<p>Hi folks,</p>
+</div>
+<div class="paragraph">
+<p>Here is a small update for people interested in trying the latest version of fw4spl.</p>
+</div>
+<div class="paragraph">
+<p>The current stable version is 0.10.1. We are currently working on the version 0.10.2. While 0.10.1 didn&#8217;t bring deep changes, the version 0.10.2 is much more ambitious.</p>
+</div>
+<div class="paragraph">
+<p>For instance we removed the old messaging system. Thus, the <code>IService::receive()</code> method no longer exists and <strong>objects messages</strong> were all deleted. Communication is now only done via <strong>signals/slots</strong>, which is much clearer and simpler.</p>
+</div>
+<div class="paragraph">
+<p>Moreover, creating and editing the <strong>profile.xml</strong> was quite redundant with maintaining the dependencies in <strong>Properties.cmake</strong>. Thus this file is now automatically generated through CMake. Also you no longer have to start bundles manually, this is specified in the <strong>Properties.cmake</strong> file of the bundle.</p>
+</div>
+<div class="paragraph">
+<p>The documentation for this new branch has been generated on <a href="http://fw4spl-doc.readthedocs.org/en/fw4spl_0.10.2/">ReadTheDocs</a>.</p>
+</div>
+<div class="paragraph">
+<p>However to try out this branch, you need a patch repository as it has not been approved yet by the fw4spl board. But no major change should now occur. This repository is only available on <a href="https://bitbucket.org/fw4splorg/fw4spl-patches">Bitbucket</a>. You can clone both the source repository and the patch repository with a single command :</p>
+</div>
+<div class="paragraph">
+<p><code>hg qclone ssh://hg@bitbucket.org/fw4splorg/fw4spl-patches</code></p>
+</div>
+<div class="paragraph">
+<p>Then, be sure to switch to the branch <strong>fw4spl_0.10.2</strong> in both repositories. Do the same for <strong>fw4spl-ext</strong> if you use it.</p>
+</div>
+<div class="paragraph">
+<p>If you&#8217;re stuck somewhere, you can request some support at <strong>fw4spl at gmail.com</strong>.</p>
+</div>
+        </section>
+
+        <footer class="post-footer">
+
+
+            <figure class="author-image">
+                <a class="img" href="" style="background-image: url(https://avatars.githubusercontent.com/u/8638653?v=3)"><span class="hidden">'s Picture</span></a>
+            </figure>
+
+            <section class="author">
+                <h4><a href=""></a></h4>
+
+                    <p>Read <a href="">more posts</a> by this author.</p>
+                <div class="author-meta">
+                    
+                    
+                </div>
+            </section>
+
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="https://twitter.com/share?text=Development%20status%20-%20v0.10.2&amp;url=https://fw4spl-org.github.io/fw4spl-blog/2015/07/15/Development-status-v0102.html"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://fw4spl-org.github.io/fw4spl-blog/2015/07/15/Development-status-v0102.html"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https://fw4spl-org.github.io/fw4spl-blog/2015/07/15/Development-status-v0102.html"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+
+        </footer>
+
+
+        <section class="post-comments">
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+          var disqus_shortname = 'fw4spl'; // required: replace example with your forum shortname
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </section>
+
+
+    </article>
+
+</main>
+
+
+
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="https://fw4spl-org.github.io/fw4spl-blog">FW4SPL</a> &copy; 2015</section>
+        <section class="poweredby">Proudly published with <a href="http://hubpress.io">HubPress</a></section>
+    </footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();      
+      </script>
+
+    <script type="text/javascript" src="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/assets/js/jquery.fitvids.js?v=1.0.0"></script>
+    <script type="text/javascript" src="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/assets/js/index.js?v=1.0.0"></script>
+
+</body>
+</html>

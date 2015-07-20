@@ -15,7 +15,7 @@ The documentation for this new branch has been generated on http://fw4spl-doc.re
 
 However to try out this branch, you need a patch repository as it has not been approved yet by the fw4spl board. But no major change should now occur. This repository is only available on https://bitbucket.org/fw4splorg/fw4spl-patches[Bitbucket]. You can clone both the source repository and the patch repository with a single command :
 
-`hg qclone ssh://hg@bitbucket.org/fw4splorg/fw4spl-patches`
+`hg qclone https://bitbucket.org/fw4splorg/fw4spl-patches`
 
 Then, be sure to switch to the branch *fw4spl_0.10.2* in both repositories. Do the same for *fw4spl-ext* if you use it.
 

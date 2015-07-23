@@ -1,4 +1,5 @@
 = fw4spl_0.10.2.1 released !!! =
+:hp-tags: fw4spl, release
 
 Hi,
 

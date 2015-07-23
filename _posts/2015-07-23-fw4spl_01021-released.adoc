@@ -5,3 +5,13 @@ Hi,
 We are happy to announce the new release fw4spl_0.10.2.1.
 
 We have released all the fw4spl and deps repositories :
+
+ * https://github.com/fw4spl-org/fw4spl-deps/releases/tag/fw4spl_0.10.2.1[fw4spl-deps]
+ * https://github.com/fw4spl-org/fw4spl-ext-deps/releases/tag/fw4spl_0.10.2.1[fw4spl-ext-deps]
+ * https://github.com/fw4spl-org/fw4spl-ar-deps/releases/tag/fw4spl_0.10.2.1[fw4spl-ar-deps]
+ * https://github.com/fw4spl-org/fw4spl/releases/tag/fw4spl_0.10.2.1[fw4spl]
+ * https://github.com/fw4spl-org/fw4spl-ext/releases/tag/fw4spl_0.10.2.1[fw4spl-ext]
+ * https://github.com/fw4spl-org/fw4spl-ar/releases/tag/fw4spl_0.10.2.1[fw4spl-ar]
+ 
+
+ 

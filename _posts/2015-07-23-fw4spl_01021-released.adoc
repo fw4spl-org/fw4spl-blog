@@ -1,0 +1,7 @@
+= fw4spl_0.10.2.1 released !!! =
+
+Hi,
+
+We are happy to announce the new release fw4spl_0.10.2.1.
+
+We have released all the fw4spl and deps repositories :

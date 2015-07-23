@@ -13,3 +13,4 @@ We have released all the fw4spl and deps repositories :
  * https://github.com/fw4spl-org/fw4spl-ar/releases/tag/fw4spl_0.10.2.1[fw4spl-ar]: another extension of fw4spl, contains functionalities for augmented reality (video tracking)
  * https://github.com/fw4spl-org/fw4spl-ar-deps/releases/tag/fw4spl_0.10.2.1[fw4spl-ar-deps]: contains the scripts to compile the external libraries used by fw4spl-ar
  
+The documentation is available at http://fw4spl-doc.readthedocs.org/en/fw4spl_0.10.2/

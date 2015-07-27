@@ -1,0 +1,181 @@
+= Native debugging on Android, with QtCreator
+
+:hp-tags: Android, NDK, Open Source, fw4spl, C++, gdb, gdbserver, QtCreator
+
+
+=== 0. Debugging is a key feature !
+
+Having an efficient debugging environment is a key factor not only for robustness, but also for **efficient** development.
+And as a matter of fact, QtCreator allows you to debug an Android app "**kinda** out of the box". And the problem lies in the "kinda"... For our more general case, where we have our custom build and deploy pipeline, it just doesn't work !
+
+So lately, we have invested time in integrating a decent debugging solution to our new Android workflow. 
+And we think you should do the same. Really.
+
+But looking at the internet, it seems that even after a few years, many people are still struggling with native debugging on Android. And obviously, there are many pitfalls.
+
+Since we're a pretty nice bunch of guys (yes we are!), we thought we could share our work and help a little.
+
+Here, we are assuming that you can build an native app already _(if not, you can read our previous article on FW4SPL and Android)_.
+
+This article is a bit long, but it's mostly setup & explanations.
+
+**=> In the end you will be able to debug efficiently using QtCreator**, i.e. :
+
+- run an Android app on your device with **gdbserver attached to it and gdb connecting** 
+- put and remove **breakpoints** while it's running 
+- see the **values** of your vars
+
+And this without having to root your Android device !
+
+
+=== 1. Short explanation : gdb & gdbserver
+
+A debugging session on Android will require **gdb** and **gdbserver** to communicate, and specificaly those provided in the **android-ndk**.
+As for now, this is the official and only way of debugging that Google provides.
+
+In a nutshell...
+
+**Gdb (local)** needs to connect to **gdbserver (on the android device)**, so that it can send the debug commands of the user, and retrieve debug informations in return.
+
+Obviously, before that gdbserver has to be **launched** on the device, and **attached** to the Android process to debug.
+
+Also, in order to exchange valid debug data, gdb must be taught a few things that it cannot "just guess", like where to find (locally) :
+
+- a copy of the executable
+- a copy of the linked libraries
+- a copy of the other system libraries - cf. "retrieving the sysroot"
+
+
+ 
+
+
+
+=== 2. Setup
+
+So before being able to debug, you will need to prepare your environment, which means :
+
+
+- retrieve a local copy of the sysroot of your device
+- put gdbserver in your apk and have a script to start it
+- setup QtCreator
+
+
+===== 2.1. Sysroot
+
+
+For ease of use, we provide the script https://raw.githubusercontent.com/fw4spl-org/android-cmake/master/pull_sysroot.py.
+It does the whole sysroot pulling in one command :
+
+[source,bash]
+pull_sysroot.py <DEVICE_NAME> <LOCAL_SYSROOT_BASE_PATH>
+
+
+That's it !
+
+Still, you should know that the most important files are the following :
+
+ - /system/bin/app_process _(entry point for the debugger, since it is responsible for starting any Activity on Android.)_
+ - /system/bin/linker _(required to set breakpoints)_
+ - /system/lib/libc.so _(one of the base library for any native app)_
+
+
+It might be useful though to retrieve the whole content of _/system/lib_ and _/vendor/lib_, and that's what the script does, using the command '**adb pull**'.
+
+
+
+===== 2.2. gdbserver
+
+* First, make sure you have packaged a copy of _gdbserver_ with the app you want to debug - and call this copy _"libgdbserver.so"_ 
+
+The right copy of _gdbserver_ to use can be found in your _android-ndk\prebuilt\android-arm\gdbserver\_.
+And I strongly advise you to set this up in your build pipeline once for all, for every Android debug build. That's what we have done, and that's pretty neat.
+
+* Then get a copy of the script https://raw.githubusercontent.com/fw4spl-org/android-cmake/master/start_gdbserver.py, and modify its vars **ANDROID_APK_PACKAGE** and **ACTIVITY_NAME** to match your app. 
+
+This script will be in charge of launching the app to debug on the device, and attaching the _gdbserver_ packaged with it to this app, leaving it waiting for a connection from gdb (on the port 5039).
+
+
+
+=> So yes, if you want to debug another app, modify the script again!
+
+
+===== 2.3. QtCreator
+
+
+* First, make sure QtCreator knows the paths to your android sdk & ndk (cf. Tools > Android).
+
+
+* Then, following the policy of QtCreator, we will need to create a Kit per type of Android device we will want to use for debugging, since **1 Kit = 1 sysroot**.
+
+
+Be careful, here is a first trick : in the fields **Device Type** and **Device**, you MUST specify "Desktop" and "Local PC" !
+
+.Build & Run - Kits
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/0.QtCreatorOptions/0.KitAndroidDevice.png[]
+
+* In the Additional Startup Commands of the GDB panel, we tell gdb :
+** to execute the non blocking script "C:/Dev/Scripts/start_gdbserver.py"
+** where on our local host to search for the .so libraries of our app
+
+.GDB
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/0.QtCreatorOptions/1.GDB.png[]
+
+* The GDB Extended panel contains one critical option : **"use asynchronous mode to control the inferior"**
+
+.GDB Extended
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/0.QtCreatorOptions/2.GDBExtended.png[]
+ 
+
+That's it !
+
+
+=== 3. Using it !
+
+
+===== 3.1. Open & Setup your project
+
+
+
+The followings tools are required:
+
+
+.ImportProject
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/1.SetupProject/0.ImportProject.png[]
+
+.Open CMakeLists
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/1.SetupProject/1.OpenCMakeLists.png[]
+
+.Choose Build Location
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/1.SetupProject/2.ChooseBuildLocation.png[]
+
+.Run CMake - or just click Finish
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/1.SetupProject/3.RunCMake.png[]
+
+.Change the Kit
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/1.SetupProject/4.Project.Kit.Change.png[]
+
+.Build step
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/1.SetupProject/5.Project.Kit.Build.png[]
+
+.Run and Deploy steps
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/1.SetupProject/6.Project.Kit.Run.png[]
+
+
+
+===== 3.2. Debug !
+
+
+Now you just have to open the panel "Attach to Running Debug Server..." (and you should really consider binding the F6 key to this action)...
+
+
+.Start Debug
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/2.Launch/0.Launch.png[]
+
+
+And properly fill it, with the server port 5039 used in the start_gdbserver.py script, and the right app_process.
+
+
+.ImportProject
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/2.Launch/1.AttachToRunningDebugServer.png[]
+
+On pressing "OK", it will launch gdb, which will execute the script "start_gdbserver.py" (as required by commands we added in "Additional Startup Commands"). That will actually launch the app we want to debug on the device, and attach gdbserver to it.

@@ -47,7 +47,7 @@ export ANDROID_SDK=/ABSOLUTE/PATH/TO/THE/ANDROID_SDK
 
 
 .SDK Manager
-image::https://raw.githubusercontent.com/FredChamp/hubpress-test/gh-pages/images/sdk_manager.png[]
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/sdk_manager.png[]
 
 * It's possible to update the SDK with the following command line:
 +
@@ -62,7 +62,7 @@ IMPORTANT: It is usefull for Windows users to check if **adb** is correctly inst
 In that case, update it using the installation process of your device drivers.
 
 .Perepheric manager
-image::https://raw.githubusercontent.com/FredChamp/hubpress-test/gh-pages/images/WindowPeriphericManager.png[]
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/WindowPeriphericManager.png[]
  
  
 
@@ -162,7 +162,7 @@ if(CROSS_COMPILING AND NOT CMAKE_TOOLCHAIN_FILE )
  IMPORTANT: Do not forget to check the _CROSS_COMPILING varaible and to specify the toolchain path
  
 .ccmake example (OSX and Linux)
-image::https://raw.githubusercontent.com/FredChamp/hubpress-test/gh-pages/images/ccmake_terminal.png[]
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/ccmake_fw4spl-deps.png[]
 
 .cmake-gui example (OSX and Windows)
-image::https://raw.githubusercontent.com/FredChamp/hubpress-test/gh-pages/images/cmake-gui.png[]
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/cmake-gui.png[]

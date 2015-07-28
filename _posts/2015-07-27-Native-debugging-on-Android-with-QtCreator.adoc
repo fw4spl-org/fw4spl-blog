@@ -23,7 +23,7 @@ This article is a bit long, but it's mostly setup & explanations.
 
 *=> In the end you will be able to debug using QtCreator (with breakpoints and all) just by pressing F6 then Enter !*
 
-And this without having to root your Android device !
+:: And this without having to root your Android device !
 
 
 === 1. Short explanation : gdb & gdbserver

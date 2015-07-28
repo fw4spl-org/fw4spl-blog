@@ -34,7 +34,7 @@ As for now, this is the official and only way of debugging that Google provides.
 
 In a nutshell...
 
-*Gdb (local)* needs to connect to *gdbserver (on the android device)*, so that it can send the debug commands of the user, and retrieve debug informations in return.
+*Gdb (on your computer)* needs to connect to *gdbserver (on the android device)*, so that it can send the debug commands of the user, and retrieve debug informations in return.
 
 Obviously, before that gdbserver has to be *launched* on the device, and *attached* to the Android process to debug.
 
@@ -177,10 +177,10 @@ NOTE: Here is what happens behind the hoods when you press "OK" : +
 
 === 4. Known limitations
 
-. On applications linked to many libraries, gdb startup can be really slow... but there is nothing we can do, except from stripping the libs we don't want to debug
-. On Windows, the field "Server start script" cannot be used in recent version of QtCreator (3.4. to 3.5), that's why we use the gdb command *"source"*
+. On applications linked with many libraries, gdb startup can be really slow... but there is nothing we can do, except from stripping the libs we don't want to debug.
+. On Windows, the field "Server start script" cannot be used in recent versions of QtCreator (3.4. to 3.5), that's why we use the gdb command *"source"*.
 . If you want to debug another app, you will have to modify the vars *"start_gdbserver.py"*... 
-. ... and modify the *"solib-search-path"* in the GDB panel
+. ... and modify the *"solib-search-path"* in the GDB panel.
 
 
  

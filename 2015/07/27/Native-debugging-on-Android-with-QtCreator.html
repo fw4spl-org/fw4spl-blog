@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Native debugging on Android, with QtCreator</title>
+    <meta name="description" content="" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/assets/css/screen.css?v=1.0.0" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+
+    <link rel="canonical" href="https://fw4spl-org.github.io/fw4spl-blog/2015/07/27/Native-debugging-on-Android-with-QtCreator.html" />
+    
+    <meta property="og:site_name" content="FW4SPL" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Native debugging on Android, with QtCreator" />
+    <meta property="og:description" content="0. Debugging is a key feature ! Having an efficient debugging environment is a key factor not only for robustness, but also for efficient development. And as a matter of fact, QtCreator allows you to debug an Android app kinda &quot;out..." />
+    <meta property="og:url" content="https://fw4spl-org.github.io/fw4spl-blog/2015/07/27/Native-debugging-on-Android-with-QtCreator.html" />
+    <meta property="article:published_time" content="2015-07-26T22:00:00.000Z" />
+    <meta property="article:modified_time" content="2015-07-29T08:30:44.702Z" />
+    <meta property="article:tag" content="Android" />
+    <meta property="article:tag" content="NDK" />
+    <meta property="article:tag" content="Open Source" />
+    <meta property="article:tag" content="fw4spl" />
+    <meta property="article:tag" content="C++" />
+    <meta property="article:tag" content="gdb" />
+    <meta property="article:tag" content="gdbserver" />
+    <meta property="article:tag" content="QtCreator" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Native debugging on Android, with QtCreator" />
+    <meta name="twitter:description" content="0. Debugging is a key feature ! Having an efficient debugging environment is a key factor not only for robustness, but also for efficient development. And as a matter of fact, QtCreator allows you to debug an Android app kinda &quot;out..." />
+    <meta name="twitter:url" content="https://fw4spl-org.github.io/fw4spl-blog/2015/07/27/Native-debugging-on-Android-with-QtCreator.html" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "FW4SPL",
+    "author": {
+        "@type": "Person",
+        "image": "https://avatars.githubusercontent.com/u/13417767?v=3",
+        "url": "undefined/author/undefined"
+    },
+    "headline": "Native debugging on Android, with QtCreator",
+    "url": "https://fw4spl-org.github.io/fw4spl-blog/2015/07/27/Native-debugging-on-Android-with-QtCreator.html",
+    "datePublished": "2015-07-26T22:00:00.000Z",
+    "dateModified": "2015-07-29T08:30:44.702Z",
+    "keywords": "Android,  NDK,  Open Source,  fw4spl,  C++,  gdb,  gdbserver,  QtCreator",
+    "description": "0. Debugging is a key feature ! Having an efficient debugging environment is a key factor not only for robustness, but also for efficient development. And as a matter of fact, QtCreator allows you to debug an Android app kinda &quot;out..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost ?" />
+    <link rel="alternate" type="application/rss+xml" title="FW4SPL" href="https://fw4spl-org.github.io/fw4spl-blog/rss" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+</head>
+<body class="post-template tag-Android tag-NDK tag-Open-Source tag-fw4spl tag-C tag-gdb tag-gdbserver tag-QtCreator">
+
+    
+
+
+<header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="https://fw4spl-org.github.io/fw4spl-blog">Home</a>
+        <!-- <a class="subscribe-button icon-feed" href="https://fw4spl-org.github.io/fw4spl-blog/rss/">Subscribe</a> -->
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post tag-Android tag-NDK tag-Open-Source tag-fw4spl tag-C tag-gdb tag-gdbserver tag-QtCreator">
+
+        <header class="post-header">
+            <h1 class="post-title">Native debugging on Android, with QtCreator</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2015-07-27">27 July 2015</time>  on <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/Android">Android</a>, <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/NDK"> NDK</a>, <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/Open-Source"> Open Source</a>, <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/fw4spl"> fw4spl</a>, <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/C"> C++</a>, <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/gdb"> gdb</a>, <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/gdbserver"> gdbserver</a>, <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/QtCreator"> QtCreator</a>
+            </section>
+        </header>
+
+        <section class="post-content">
+            <div class="sect2">
+<h3 id="_0_debugging_is_a_key_feature">0. Debugging is a key feature !</h3>
+<div class="paragraph">
+<p>Having an efficient debugging environment is a key factor not only for robustness, but also for <strong>efficient</strong> development.<br>
+And as a matter of fact, QtCreator allows you to debug an Android app <strong>kinda</strong> "out of the box" - at least if you use their build and deploy pipeline.<br>
+Unfortunately, for our more general case, where we have our <strong>custom pipeline</strong>, it just doesn&#8217;t work !<br></p>
+</div>
+<div class="paragraph">
+<p>So lately, we have invested time in integrating a decent debugging solution to our new Android workflow.
+And we think you should do the same.<br>
+Really.</p>
+</div>
+<div class="paragraph">
+<p>But looking at the internet, it seems that even after a few years, many people are still struggling with native debugging on Android. And obviously, there are many pitfalls.<br>
+Since we&#8217;re a pretty nice bunch of guys (yes we are!), we thought we could share our work and help a little.<br></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+It&#8217;s all based on Windows &amp; QtCreator 3.4, but this will work for Linux &amp; OSX as well.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+We are assuming that you can build and delpoy a native app already.<br>
+<em>(if not, you can read our previous article on <a href="https://fw4spl-org.github.io/fw4spl-blog/2015/04/13/Fw4spl-and-Android.html">FW4SPL and Android</a>)</em>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This article is a bit long, but it&#8217;s mostly setup &amp; explanations.</p>
+</div>
+<div class="paragraph">
+<p><strong>&#8658; At the end you will be able to debug using QtCreator (with breakpoints and all) just by pressing F6 then Enter !</strong></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"></dt>
+<dd>
+<p><em>And this without having to root your Android device !</em></p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_1_short_explanation_gdb_gdbserver">1. Short explanation : gdb &amp; gdbserver</h3>
+<div class="paragraph">
+<p>A debugging session on Android will require <strong>gdb</strong> and <strong>gdbserver</strong> to communicate, and specificaly those provided in the <strong>android-ndk</strong>.<br>
+As for now, this is the official and only way of debugging that Google provides.</p>
+</div>
+<div class="paragraph">
+<p>In a nutshell&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p><strong>Gdb (on your computer)</strong> needs to connect to <strong>gdbserver (on the android device)</strong>, so that it can send the debug commands of the user, and retrieve debug informations in return.</p>
+</div>
+<div class="paragraph">
+<p>Obviously, before that gdbserver has to be <strong>launched</strong> on the device, and <strong>attached</strong> to the Android process to debug.</p>
+</div>
+<div class="paragraph">
+<p>Also, in order to exchange valid debug data, gdb must be taught a few things that it cannot "just guess", e.g. where to find local copies of the executable to debug, the linked libraries, the other system libraries - cf. "retrieving the sysroot".</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_setup">2. Setup</h3>
+<div class="paragraph">
+<p>Ok, now before being able to debug, you will need to prepare your environment, which means :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>retrieve a local copy of the sysroot of your device</p>
+</li>
+<li>
+<p>put gdbserver in your apk and have a script to start it</p>
+</li>
+<li>
+<p>setup QtCreator</p>
+</li>
+</ol>
+</div>
+<div class="sect4">
+<h5 id="_2_1_sysroot">2.1. Sysroot</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>To get a copy of the sysroot of your device, first make sure you plugged it to your computer, and that it&#8217;s recognized when you launch the command :</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">adb devices</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Then, for ease of use, we provide the script <a href="https://raw.githubusercontent.com/fw4spl-org/android-cmake/master/pull_sysroot.py" class="bare">https://raw.githubusercontent.com/fw4spl-org/android-cmake/master/pull_sysroot.py</a>.<br>
+It does the whole sysroot pulling in one command, and goes something like :</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">pull_sysroot.py MyNexus C:/Tmp</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Of course you specify the name you want, and the path you want&#8230;&#8203; just remember that you will use them later (cf. 2.3 and 3.)
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>As a result, you will have the sysroot of your device copied to "C:/Tmp/MyNexus/"</p>
+</div>
+<div class="paragraph">
+<p>That&#8217;s it !</p>
+</div>
+<div class="paragraph">
+<p>Not only will it <strong>"adb pull"</strong> the most important files /system/bin/<strong>app_process</strong> and /system/bin/<strong>linker</strong>, but also the libraries in <strong>/system/lib/</strong> and <strong>/vendor/lib/</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Now, for your information  :</p>
+</div>
+<div class="ulist horizontal">
+<ul class="horizontal">
+<li>
+<p><strong>app_process</strong> : <em>entry point for the debugger, since it is responsible for starting any Activity on Android</em></p>
+</li>
+<li>
+<p><strong>linker</strong> : <em>required to set breakpoints</em></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+From one device to another, <strong>app_process</strong> can either be a binary file or a symlink to the actual binary file. And because pulling a symlink just doesn&#8217;t work, the script will try to pull the various files it may point to, i.e.  <strong>app_process32</strong>, <strong>app_process64</strong>, or <strong>app_process_init</strong> (&#8230;&#8203; or  something else ?)<br>
+&#8658; So be sure to use the right version that you pulled - it&#8217;s printed at the end of the execution of the sript.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_2_2_gdbserver">2.2. gdbserver</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>First, when you build the apk of the app you want to debug, make sure you put <strong>a copy of "gdbserver"</strong> in its libs directory<br>
+&#8658; and call this copy <strong>"libgdbserver.so"</strong></p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The right copy of <strong>"gdbserver"</strong> to use can be found in your <strong>"android-ndk\prebuilt\android-arm\gdbserver\"</strong> directory.<br>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+I strongly advise you to set up once for all your build pipeline so as to do this copy for every Android debug build.<br>
+That&#8217;s what we have done, and that&#8217;s pretty neat !
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Then get a copy of the script <a href="https://raw.githubusercontent.com/fw4spl-org/android-cmake/master/start_gdbserver.py" class="bare">https://raw.githubusercontent.com/fw4spl-org/android-cmake/master/start_gdbserver.py</a>, and modify its vars <strong>ANDROID_APK_PACKAGE</strong> and <strong>ACTIVITY_NAME</strong> to match your app.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+This script will be in charge of launching the app to debug on the device, and attaching the <strong>gdbserver</strong> packaged with it to this app, leaving it waiting for a connection from gdb (on the port 5039).
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_2_3_qtcreator">2.3. QtCreator</h5>
+<div class="paragraph">
+<p><em>To make things easier for everyone, I provide here a complete set of screenshots.<br>
+&#8658; use them to setup your QtCreator.</em></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>First, make sure QtCreator knows the paths to your android sdk &amp; ndk (cf. Tools &gt; Android).</p>
+</li>
+<li>
+<p>Then, following the policy of QtCreator, we will need to create a Kit per type of Android device we will want to use for debugging, since <strong>1 Kit = 1 sysroot</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Be careful, here is a first trick :<br>
+In the fields <strong>"Device Type"</strong> and <strong>"Device"</strong>, you <strong>MUST</strong> specify "Desktop" and "Local PC" !<br>
+<br>
+<em>(Why ? Because if you set "Android device" instead, QtCreator will use another communication scheme between gdb and gdbserver, and that just does NOT work for us)</em>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/0.QtCreatorOptions/0.KitAndroidDevice.png" alt="Kit Android Device">
+</div>
+<div class="title">Figure 1. Build &amp; Run - Kits</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>In the Additional Startup Commands of the GDB panel, we tell gdb :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>to execute the non blocking script <strong>"C:/Dev/Scripts/start_gdbserver.py"</strong><br>
+(gdb command <strong>"source"</strong>)</p>
+</li>
+<li>
+<p>where on our local host to search for the .so libraries of our app<br>
+(gdb command set <strong>"solib-search-path"</strong>)</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/0.QtCreatorOptions/1.GDB.png" alt="GDB">
+</div>
+<div class="title">Figure 2. GDB</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="4">
+<li>
+<p>The GDB Extended panel contains one critical option :<br></p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"></dt>
+<dd>
+<p><strong>"use asynchronous mode to control the inferior"</strong></p>
+</dd>
+</dl>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Did I say it was a critical option ?
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/0.QtCreatorOptions/2.GDBExtended.png" alt="GDB Extended">
+</div>
+<div class="title">Figure 3. GDB Extended</div>
+</div>
+<div class="paragraph">
+<p>That&#8217;s it !</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_using_it_f6_enter_and_debug_now">3. Using it : F6, Enter, &#8230;&#8203; and debug now !</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Assuming you have already deployed your app (containing libgdbserver.so) on your device, now you just have to open the panel <strong>"Attach to Running Debug Server&#8230;&#8203;"</strong></p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You should really consider binding the F6 key to this action!
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/2.Launch/0.Launch_short.png" alt="Start Debugger" width="900">
+</div>
+<div class="title">Figure 4. Start Debug</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>And properly fill it, with :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>the right Kit</p>
+</li>
+<li>
+<p>the <strong>server port 5039</strong> (which is forwarded to a unix pipe by the <strong>start_gdbserver.py</strong> script)</p>
+</li>
+<li>
+<p>the right <strong>app_process</strong> (see 2.1. - tag 'important').</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Good news : QtCreator will remember these infos.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/2.Launch/1.AttachToRunningDebugServer.png" alt="Attach To Running Debug Server" width="500">
+</div>
+<div class="title">Figure 5. ImportProject</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Now press "OK", and wait !</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>&#8658; Put breakpoints anywhere in your code, and enjoy !</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/2.Launch/2.Debug.png" alt="Debug" width="1100">
+</div>
+<div class="title">Figure 6. Breakpoints are working</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Here is what happens behind the hoods when you press "OK" :<br>
+ 1. QtCreator launches gdb&#8230;&#8203;<br>
+ 2. which will execute the script "start_gdbserver.py" <em>(as required by commands we added in "Additional Startup  Commands")</em>&#8230;&#8203;<br>
+ 3. then connect to gdbserver (using the command <strong>"target remote :5039"</strong>) &#8230;&#8203;<br>
+ 4. load the libraries&#8230;&#8203;<br>
+ 5. and continue running the app !
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_known_limitations">4. Known limitations</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>On applications linked with many libraries, gdb startup can be really slow&#8230;&#8203; but there is nothing we can do, except from stripping the libs we don&#8217;t want to debug.</p>
+</li>
+<li>
+<p>On Windows, the field "Server start script" cannot be used in recent versions of QtCreator (3.4. to 3.5), that&#8217;s why we use the gdb command <strong>"source"</strong>.</p>
+</li>
+<li>
+<p>If you want to debug another app, you will have to modify the vars <strong>"start_gdbserver.py"</strong>&#8230;&#8203;</p>
+</li>
+<li>
+<p>&#8230;&#8203; and modify the <strong>"solib-search-path"</strong> in the GDB panel.</p>
+</li>
+</ol>
+</div>
+</div>
+        </section>
+
+        <footer class="post-footer">
+
+
+            <figure class="author-image">
+                <a class="img" href="" style="background-image: url(https://avatars.githubusercontent.com/u/13417767?v=3)"><span class="hidden">'s Picture</span></a>
+            </figure>
+
+            <section class="author">
+                <h4><a href=""></a></h4>
+
+                    <p>Read <a href="">more posts</a> by this author.</p>
+                <div class="author-meta">
+                    
+                    
+                </div>
+            </section>
+
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="https://twitter.com/share?text=Native%20debugging%20on%20Android%2C%20with%20QtCreator&amp;url=https://fw4spl-org.github.io/fw4spl-blog/2015/07/27/Native-debugging-on-Android-with-QtCreator.html"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://fw4spl-org.github.io/fw4spl-blog/2015/07/27/Native-debugging-on-Android-with-QtCreator.html"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https://fw4spl-org.github.io/fw4spl-blog/2015/07/27/Native-debugging-on-Android-with-QtCreator.html"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+
+        </footer>
+
+
+        <section class="post-comments">
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+          var disqus_shortname = 'fw4spl'; // required: replace example with your forum shortname
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </section>
+
+
+    </article>
+
+</main>
+
+
+
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="https://fw4spl-org.github.io/fw4spl-blog">FW4SPL</a> &copy; 2015</section>
+        <section class="poweredby">Proudly published with <a href="http://hubpress.io">HubPress</a></section>
+    </footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();      
+      </script>
+
+    <script type="text/javascript" src="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/assets/js/jquery.fitvids.js?v=1.0.0"></script>
+    <script type="text/javascript" src="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/assets/js/index.js?v=1.0.0"></script>
+
+</body>
+</html>

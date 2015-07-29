@@ -5,6 +5,8 @@
 Have you ever struggled trying to setup a clean debugging environment for your native Android app ? +
 Then this article is for you !
 
+
+
 === 0. Debugging is a key feature !
 
 Having an efficient debugging environment is a key factor not only for robustness, but also for *efficient* development. +

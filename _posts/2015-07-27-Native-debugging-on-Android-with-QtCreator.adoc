@@ -7,23 +7,26 @@
 
 Having an efficient debugging environment is a key factor not only for robustness, but also for *efficient* development. +
 And as a matter of fact, QtCreator allows you to debug an Android app *kinda* "out of the box" - at least if you use their build and deploy pipeline. +  
-Unfortunately, for our more general case, where we have our *custom pipeline*, it just doesn't work !
+Unfortunately, for our more general case, where we have our *custom pipeline*, it just doesn't work ! +
+
 
 So lately, we have invested time in integrating a decent debugging solution to our new Android workflow. 
 And we think you should do the same. + 
 Really.
 
 But looking at the internet, it seems that even after a few years, many people are still struggling with native debugging on Android. And obviously, there are many pitfalls. +
-Since we're a pretty nice bunch of guys (yes we are!), we thought we could share our work and help a little.
+Since we're a pretty nice bunch of guys (yes we are!), we thought we could share our work and help a little. +
 
-NOTE: We are assuming that you can build an native app already _(if not, you can read our previous article on link:https://fw4spl-org.github.io/fw4spl-blog/2015/04/13/Fw4spl-and-Android.html[FW4SPL and Android])_.
+NOTE: It's all based on Windows & QtCreator 3.4, but this will work for Linux & OSX as well.
+
+NOTE: We are assuming that you can build and delpoy a native app already _(if not, you can read our previous article on link:https://fw4spl-org.github.io/fw4spl-blog/2015/04/13/Fw4spl-and-Android.html[FW4SPL and Android])_.
 
 
 This article is a bit long, but it's mostly setup & explanations.
 
-*=> In the end you will be able to debug using QtCreator (with breakpoints and all) just by pressing F6 then Enter !*
+*=> At the end you will be able to debug using QtCreator (with breakpoints and all) just by pressing F6 then Enter !*
 
-:: And this without having to root your Android device !
+:: _And this without having to root your Android device !_
 
 
 === 1. Short explanation : gdb & gdbserver
@@ -63,7 +66,7 @@ pull_sysroot.py Nexus C:/Tmp
 
 That's it !
 
-Not only will it *"adb pull"* the most important files /system/bin/*app_process* and /system/bin/*linker*, but also the libraries in */system/lib/* and */vendro/lib/*.
+Not only will it *"adb pull"* the most important files /system/bin/*app_process* and /system/bin/*linker*, but also the libraries in */system/lib/* and */vendor/lib/*.
 
 For your information  :
 
@@ -79,12 +82,13 @@ IMPORTANT: From one device to another, *app_process* can either be a binary file
 
 ===== 2.2. gdbserver
 
-First, make sure you have *packaged a copy of "gdbserver"* with the app you want to debug +
+First, when you build the apk of the app you want to debug, make sure you put *a copy of "gdbserver"* in its libs directory +
 => and call this copy *"libgdbserver.so"*
 
-TIP: And I strongly advise you to set this up in your build pipeline once for all, for every Android debug build. That's what we have done, and that's pretty neat.
+NOTE:  The right copy of *"gdbserver"* to use can be found in your *"android-ndk\prebuilt\android-arm\gdbserver\"* directory. + 
 
-NOTE:  The right copy of *"gdbserver"* to use can be found in your *"android-ndk\prebuilt\android-arm\gdbserver\"* directory.
+TIP: I strongly advise you to set up once for all your build pipeline so as to do this copy for every Android debug build. + 
+That's what we have done, and that's pretty neat !
 
 
 Then get a copy of the script https://raw.githubusercontent.com/fw4spl-org/android-cmake/master/start_gdbserver.py, and modify its vars *ANDROID_APK_PACKAGE* and *ACTIVITY_NAME* to match your app. 
@@ -103,7 +107,10 @@ To make things easier for everyone, I provide here a complete set of screenshots
 . Then, following the policy of QtCreator, we will need to create a Kit per type of Android device we will want to use for debugging, since *1 Kit = 1 sysroot*.
 
 
-WARNING: Be careful, here is a first trick : in the fields *Device Type* and *Device*, you MUST specify "Desktop" and "Local PC" !
+WARNING: Be careful, here is a first trick : + 
+In the fields *"Device Type"* and *"Device"*, you *MUST* specify "Desktop" and "Local PC" ! + 
+ +
+_(Why ? Because if you set "Android device" instead, QtCreator will use another communication scheme between gdb and gdbserver, and that just does NOT work for us)_
 
 .Build & Run - Kits
 image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/0.QtCreatorOptions/0.KitAndroidDevice.png[ Kit Android Device ]
@@ -169,10 +176,10 @@ image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/
 
 NOTE: Here is what happens behind the hoods when you press "OK" : +
  1. QtCreator launches gdb... +
- 2. which will execute the script "start_gdbserver.py" (as required by commands we added in "Additional Startup  Commands")... +
+ 2. which will execute the script "start_gdbserver.py" _(as required by commands we added in "Additional Startup  Commands")_... +
  3. then connect to gdbserver (using the command *"target remote :5039"*) ... +
  4. load the libraries... +
- 5. and continue the execution of the app !
+ 5. and continue running the app !
 
 
 === 4. Known limitations

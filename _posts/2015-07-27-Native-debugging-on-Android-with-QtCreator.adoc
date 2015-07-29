@@ -19,7 +19,8 @@ Since we're a pretty nice bunch of guys (yes we are!), we thought we could share
 
 NOTE: It's all based on Windows & QtCreator 3.4, but this will work for Linux & OSX as well.
 
-NOTE: We are assuming that you can build and delpoy a native app already _(if not, you can read our previous article on link:https://fw4spl-org.github.io/fw4spl-blog/2015/04/13/Fw4spl-and-Android.html[FW4SPL and Android])_.
+NOTE: We are assuming that you can build and delpoy a native app already. +
+_(if not, you can read our previous article on link:https://fw4spl-org.github.io/fw4spl-blog/2015/04/13/Fw4spl-and-Android.html[FW4SPL and Android])_.
 
 
 This article is a bit long, but it's mostly setup & explanations.
@@ -54,21 +55,28 @@ Ok, now before being able to debug, you will need to prepare your environment, w
 
 ===== 2.1. Sysroot
 
+. To get a copy of the sysroot of your device, first make sure you plugged it to your computer, and that it's recognized when you launch the command :
 
-For ease of use, we provide the script https://raw.githubusercontent.com/fw4spl-org/android-cmake/master/pull_sysroot.py.
+[source,bash]
+adb devices
+
+[start = 2]
+. Then, for ease of use, we provide the script https://raw.githubusercontent.com/fw4spl-org/android-cmake/master/pull_sysroot.py. +
 It does the whole sysroot pulling in one command, and goes something like :
 
 [source,bash]
-pull_sysroot.py Nexus C:/Tmp
+pull_sysroot.py MyNexus C:/Tmp
 
-:: _Of course you specify the name you want, and the path you want... just remember that you will you them later (cf. 2.3 and 3.)_
+NOTE: Of course you specify the name you want, and the path you want... just remember that you will use them later (cf. 2.3 and 3.)
 
+
+As a result, you will have the sysroot of your device copied to "C:/Tmp/MyNexus/"
 
 That's it !
 
 Not only will it *"adb pull"* the most important files /system/bin/*app_process* and /system/bin/*linker*, but also the libraries in */system/lib/* and */vendor/lib/*.
 
-For your information  :
+Now, for your information  :
 
 [horizontal]
 * *app_process* : _entry point for the debugger, since it is responsible for starting any Activity on Android_
@@ -82,7 +90,7 @@ IMPORTANT: From one device to another, *app_process* can either be a binary file
 
 ===== 2.2. gdbserver
 
-First, when you build the apk of the app you want to debug, make sure you put *a copy of "gdbserver"* in its libs directory +
+. First, when you build the apk of the app you want to debug, make sure you put *a copy of "gdbserver"* in its libs directory +
 => and call this copy *"libgdbserver.so"*
 
 NOTE:  The right copy of *"gdbserver"* to use can be found in your *"android-ndk\prebuilt\android-arm\gdbserver\"* directory. + 
@@ -91,7 +99,8 @@ TIP: I strongly advise you to set up once for all your build pipeline so as to d
 That's what we have done, and that's pretty neat !
 
 
-Then get a copy of the script https://raw.githubusercontent.com/fw4spl-org/android-cmake/master/start_gdbserver.py, and modify its vars *ANDROID_APK_PACKAGE* and *ACTIVITY_NAME* to match your app. 
+[start = 2]
+. Then get a copy of the script https://raw.githubusercontent.com/fw4spl-org/android-cmake/master/start_gdbserver.py, and modify its vars *ANDROID_APK_PACKAGE* and *ACTIVITY_NAME* to match your app. 
 
 TIP: This script will be in charge of launching the app to debug on the device, and attaching the *gdbserver* packaged with it to this app, leaving it waiting for a connection from gdb (on the port 5039).
 
@@ -99,8 +108,8 @@ TIP: This script will be in charge of launching the app to debug on the device, 
 
 ===== 2.3. QtCreator
 
-To make things easier for everyone, I provide here a complete set of screenshots. +
-=> use them to setup your QtCreator.
+_To make things easier for everyone, I provide here a complete set of screenshots. +
+=> use them to setup your QtCreator._
 
 . First, make sure QtCreator knows the paths to your android sdk & ndk (cf. Tools > Android).
 

@@ -173,7 +173,7 @@ image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/
 NOTE: Good news : QtCreator will remember these infos.
 
 .ImportProject
-image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/2.Launch/1.AttachToRunningDebugServer.png[ Attach To Running Debug Server, 500 ]
+image::https://raw.githubusercontent.com/fw4spl-org/fw4spl-blog/gh-pages/images/Tuto_GdbServer/2.Launch/1.AttachToRunningDebugServer.png[ Attach To Running Debug Server, 550 ]
 
 
  

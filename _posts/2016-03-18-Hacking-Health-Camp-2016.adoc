@@ -1,0 +1,8 @@
+= Hacking Health Camp 2016 =
+:hp-tags: fw4spl, hhcamp, orthanc
+
+http://hhcamp.sparkboard.com/[Hacking health camp 2016] in Strasbourg has started, and we will be there to work on the future of health !
+
+The hackathon will start tonight, several members of our team plan to work on the project http://hhcamp.sparkboard.com/project/56c20d517a933c0300d8df46[Anduin], which aims to ease the transfer of patient images from various modalities to the desktop computer of the surgeon. To achieve this, we are glad to cooperate with the guys from http://orthanc-server.com/[Orthanc] server, who will help us to store the images in the hospital PACS.
+
+More on this to come !

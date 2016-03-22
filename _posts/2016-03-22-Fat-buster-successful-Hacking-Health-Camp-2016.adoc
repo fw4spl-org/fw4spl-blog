@@ -1,7 +1,7 @@
 = Fat buster successful ! (Hacking Health Camp 2016) =
 :hp-tags: fw4spl, hhcamp, orthanc
 
-We were present at http://hhcamp.sparkboard.com/[Hacking health camp 2016] in Strasbourg between the 17th and 20th March !
+We were present at http://hackinghealth.ca/event/hacking-health-camp/[Hacking health camp 2016] in Strasbourg between the 17th and 20th March !
 
 Fw4spl has been used successfully on the project http://hhcamp.sparkboard.com/project/56c20d517a933c0300d8df46[Fat Buster], to compute the amount of fat inside the peritoneum from a CT-Scan. It was a real pleasure to work with the developers from http://www.osimis.io/[Osimis] who were in charge of the website frontend and backend, using http://orthanc-server.com/[Orthanc].
  

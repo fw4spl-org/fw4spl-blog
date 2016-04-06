@@ -1,0 +1,14 @@
+= FW4SPL branches status =
+:hp-tags: fw4spl, release
+
+Hi everyone,
+
+This is a short notice to clarify the current development status of fw4spl :
+
+* The latest stable version can be obtained with the tag *fw4spl_0.10.2.3.*, which was added in late January. There will be no new feature development on the branch 0.10.2.
+* For the development version, we switched to the new branch *fw4spl_0.11.* This new branch will focus on making the framework easier to learn for the beginner and simpler to use for the expert. Simpler doesn't mean we will remove any feature ! We just try to respect as much as possible one of the motivation behind FW4SPL: building a medical imaging application should be as quick as possible.
+ 
+The documentation is available for both branches:
+
+* http://fw4spl-doc.readthedocs.org/en/fw4spl_0.10.2/
+* http://fw4spl-doc.readthedocs.org/en/fw4spl_0.11.0/

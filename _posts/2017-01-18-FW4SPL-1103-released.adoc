@@ -7,7 +7,7 @@ Few days ago, a new stable version *11.0.3* of *FW4SPL* has been released !!!
 
 == Version tagging
 
-As you might notice we dropped the first version number, which was 0 since the birth of the software 15 years ago. At some point we realized that we will never dare to release a 1.0 version, so we simply removed the first digit. Three digits are anyway more than enough to tag a version. We renamed our previous tags accordingly.
+As you might notice we dropped the first version number, which was 0 since the birth of the software 15 years ago. At some point we realized that we will never dare to release a 1.0 version, so we simply removed the first digit. Three digits are anyway more than enough to tag a version. We renamed all our previous tags accordingly.
 
 This version naming change also comes with a new release policy. We plan to tag new versions much more frequently, almost every month. However, stability will not be sacrified since we are improving our code review process and our continous integration pipeline.
 
@@ -29,4 +29,16 @@ All applications, most tutorials and samples have been ported to the new appXml2
 
 === Activity wizard
 
-A new service called SActivityWizard has been introduced to ease the data selection in applications.
+A new service called SActivityWizard has been introduced to ease the data selection of activities. This helps to make more user-friendly applications
+
+
+=== Third-party libraries
+
+We always use the best and the latest open-source software. FW4SPL 11.0.3 is shipped with:
+
+- Qt 5.7
+- VTK 7.0
+- Boost 1.61
+- OpenCV 3.2.0
+
+

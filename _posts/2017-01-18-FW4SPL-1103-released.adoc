@@ -1,0 +1,19 @@
+= FW4SPL 11.0.3 released ! =
+:hp-tags: fw4spl, release
+
+Hi !
+
+Few days ago, a new stable version of FW4SPL has been released : *11.0.3* !!!
+
+== Version tagging ==
+
+As you might notice we dropped the first version number, which was 0 since the birth of the software 15 years ago. At some point we realized that we will never dare to release a 1.0 version, so we simply removed the first digit. 3 digits are anyway more than enough. We renamed our previous tags accordingly.
+
+This version naming change also comes with a new release policy. We plan to tag new versions much more frequently, almost every month. Stability will not be sacrified since we are improving our code review process and our continous integration pipeline.
+
+== VCS change ==
+
+We also switched our main VCS from *mercurial* to *git*. This should not have make a big difference for users, except that we will not longer maintain mercurial clones on https://bitbucket.org/fw4splorg/[Bitbucket]. So starting for now https://github.com/fw4spl-org/[Github] is the only public location to download the latest code.
+
+== What's new ? ==
+

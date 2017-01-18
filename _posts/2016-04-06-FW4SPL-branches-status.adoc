@@ -10,5 +10,5 @@ This is a short notice to clarify the current development status of fw4spl :
  
 The documentation is available for both branches:
 
-* http://fw4spl-doc.readthedocs.org/en/fw4spl_0.10.2/
-* http://fw4spl-doc.readthedocs.org/en/fw4spl_0.11.0/
+* http://fw4spl.readthedocs.org/en/stable-10.2/
+* http://fw4spl.readthedocs.org/en/11.0.3/

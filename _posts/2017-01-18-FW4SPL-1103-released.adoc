@@ -3,17 +3,25 @@
 
 Hi !
 
-Few days ago, a new stable version of FW4SPL has been released : *11.0.3* !!!
+Few days ago, a new stable version *11.0.3* of *FW4SPL* has been released !!!
 
 == Version tagging ==
 
-As you might notice we dropped the first version number, which was 0 since the birth of the software 15 years ago. At some point we realized that we will never dare to release a 1.0 version, so we simply removed the first digit. 3 digits are anyway more than enough. We renamed our previous tags accordingly.
+As you might notice we dropped the first version number, which was 0 since the birth of the software 15 years ago. At some point we realized that we will never dare to release a 1.0 version, so we simply removed the first digit. Three digits are anyway more than enough to tag a version. We renamed our previous tags accordingly.
 
-This version naming change also comes with a new release policy. We plan to tag new versions much more frequently, almost every month. Stability will not be sacrified since we are improving our code review process and our continous integration pipeline.
+This version naming change also comes with a new release policy. We plan to tag new versions much more frequently, almost every month. However, stability will not be sacrified since we are improving our code review process and our continous integration pipeline.
 
 == VCS change ==
 
-We also switched our main VCS from *mercurial* to *git*. This should not have make a big difference for users, except that we will not longer maintain mercurial clones on https://bitbucket.org/fw4splorg/[Bitbucket]. So starting for now https://github.com/fw4spl-org/[Github] is the only public location to download the latest code.
+We switched our main VCS from *mercurial* to *git*. This should not make a big difference for users, except that we will not longer maintain mercurial clones on https://bitbucket.org/fw4splorg/[Bitbucket]. So starting from now, https://github.com/fw4spl-org/[Github] is the only public location to download the latest code.
 
 == What's new ? ==
 
+The 11.0 branch started almost one year ago, so this release brings a lot of changes. As previously announced, this branch focuses on simplifying the framework for the developers. 
+
+=== appXml2 ===
+The main change towards that goal is the support of _multiple objects on a service_. Since the beginning, services were designed to work on a single data, i.e. an image. To work on multiple objects, i.e. an image and a reconstruction, a service had to work on a composite data, which contains other objects, here the image and the reconstruction. This indirection was the cause of an unecessary complexity and led to introduce obscure concepts.
+
+With FW4SPL 11.0.3, services can directly work on multiple data without any indirection. The objects can be accessed as input (read-only), input/output (read/write) or output (write-only). This makes objects use safer and easier to understand. It is also much simpler to http://fw4spl.readthedocs.io/en/11.0.3/SAD/src/SDM-SAD-SigSlot.html#signals-and-slots-used-in-objects-and-services[connect _objects signals_ to _services slots_]. To help the migration, we introduced a new bundle called *appXml2* that allows to http://fw4spl.readthedocs.io/en/11.0.3/SAD/src/SDM-SAD-App-config.html[write xml configurations] using services with several objects. The deprecated *appXml* is still supported in 11.x series but will be removed in 12.x.
+
+All applications, most tutorials and samples have been ported to the new appXml2.

@@ -29,7 +29,7 @@ All applications, most tutorials and samples have been ported to the new appXml2
 
 === Activity wizard
 
-A new service called SActivityWizard has been introduced to ease the data selection of activities. This helps to make more user-friendly applications
+A new service called SActivityWizard has been introduced to ease the data selection of activities. Before that, it was sometimes hard to know what was the necessary data to launch an activity. The wizard helps in this process by automatically prompting the user to provide the data for each requirement. On top of that, we generalized the loading and saving of activities so in most applications we can load a previously saved activity and thus skip the data selection process.
 
 
 === Third-party libraries

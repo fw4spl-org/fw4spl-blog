@@ -1,0 +1,32 @@
+= FW4SPL 12.0.0 released
+:hp-tags: fw4spl, release
+
+We are glad to announce the last major release *12.0.0* of *FW4SPL* !!!
+
+The focus is still to simplify the framework API to make it easier to use and learn. See what's new below.
+
+
+
+== Generic scenes
+
+The VTK and Qt _(scene2D)_ generic scenes used to be a specific case inside the framework. Adaptors were services, but behave differently and their life cycle was managed by a specific service manager. With the introduction of `AppConfig2` in *11.0.3*, regular services became able to start and stop depending on the availability of their data, a bit like adaptors. Actually we got inspired by adaptors in this past rework. That's why it was obvious at some point that adaptors should become regular services. That was already the case in the more https://github.com/fw4spl-org/fw4spl-ogre[experimental ogre3D based scene].
+
+Thus we put a lot of efforts this summer on this rework and we also harmonized the API and the internal code of VTK, Qt and Ogre3D scenes. 
+
+
+== appXml discontinued, appXml2 promoted !
+
+The former `appXml` bundle disappeared and to make things simpler for new comers, we renamed `appXml2` to `appXml`. So there is no longer a distinction between those two ways of writing services and XML configurations.
+
+All applications, tutorials and samples now use this new standard.
+
+
+
+== Third-party libraries
+
+As usual we try to keep up-to-date with the latest open-source software. FW4SPL 12.0.0 notably contains the following updates:
+
+- Qt 5.9
+- VTK 8.0
+
+

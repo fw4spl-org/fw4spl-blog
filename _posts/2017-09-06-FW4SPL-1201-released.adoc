@@ -1,7 +1,7 @@
 = FW4SPL 12.0.1 released
 :hp-tags: fw4spl, release
 
-We are glad to announce the last major release *12.0.1* of *FW4SPL* !!!
+We are glad to announce the last major release https://github.com/fw4spl-org/fw4spl-git/releases/tag/12.0.1[*12.0.1* of *FW4SPL*] !!!
 
 The focus is still to simplify the framework API to make it easier to use and learn. See what's new below.
 
@@ -46,6 +46,28 @@ this->setMember(attrBool);
 == Better bitmap images support
 
 The service `::ioVTK::SImageReader` has gained support for common bitmap images. Previously we only handled `.vtk`, `.vti` or `.mhd`. We added a lot of formats like `.jpg`, `.png`, `.tiff`, which are rarely used to contain real medical images, but can still be useful in other cases, for instance when texturing meshes.
+
+== Parameters replacement in configuration
+
+In appXml2, you had to think twice when passing arguments to a sub-config with `SConfigController` and `SConfigLauncher`. You should either use `by` for raw strings or `uid` for service, object, or channels identifiers:
+
+[source,xml]
+----
+<parameter replace="label" by="patientName" />
+<parameter replace="subConfigChannel" uid="comChannel" />
+<parameter replace="actionService" uid="actionStart" />
+----
+
+Now, this ambiguity is removed and you can safely use `by` in any case:
+
+[source,xml]
+----
+<parameter replace="label" by="patientName" />
+<parameter replace="subConfigChannel" by="comChannel" />
+<parameter replace="actionService" by="actionStart" />
+----
+
+This should help to avoid headaches while building sub-configurations. And you can still use `uid` but be warned that it will be dropped at some point.
 
 
 == Third-party libraries

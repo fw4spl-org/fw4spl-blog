@@ -94,20 +94,6 @@ We split the configuration bundles according to the dependencies:
 - imageConfig: depends on `scene2D` and `VTK`, it allows to use the managers and TF configs in applications that does not use VTK.
 
 
-
-== Generic scenes
-
-The VTK and Qt _(scene2D)_ generic scenes used to be a specific case inside the framework. Adaptors were services, but behave differently and their life cycle was managed by a specific service manager. With the introduction of `AppConfig2` in *11.0.3*, regular services became able to start and stop depending on the availability of their data, a bit like adaptors. Actually we got inspired by adaptors in this past rework. That's why it was obvious at some point that adaptors should become regular services. That was already the case in the more https://github.com/fw4spl-org/fw4spl-ogre[experimental ogre3D based scene].
-
-Thus we put a lot of efforts this summer on this rework and we also harmonized the API and the internal code of VTK, Qt and Ogre3D scenes. You can have a look at the http://fw4spl.readthedocs.io/en/12.0.1/SAD/src/SDM-SAD-GenericScene.html[generic scene documentation] to see how it works now.
-
-
-== appXml discontinued, appXml2 promoted !
-
-The former `appXml` bundle disappeared and to make things simpler for new comers, we renamed `appXml2` to `appXml`. So there is no longer a distinction between those two ways of writing services and XML configurations.
-
-All applications, tutorials and samples now use this new standard.
-
 == Service configuration
 
 Few years ago, we started to experiment `::boost::property_tree::ptree` as an alternative to our own class `::fwRuntime::ConfigurationElement` to parse xml trees. We officially deprecate the latter in favor of `::boost::property_tree::ptree`, because the API is much nicer and new users are more likely to know its usage.
@@ -158,7 +144,8 @@ This should help to avoid headaches while building sub-configurations. And you c
 
 As usual we try to keep up-to-date with the latest open-source software. FW4SPL 12.0.1 notably contains the following updates:
 
-- Qt 5.9
-- VTK 8.0
+- Qt 5.9.4
+- OpenIGTLink 2.1
+- ITK 4.13
 
 

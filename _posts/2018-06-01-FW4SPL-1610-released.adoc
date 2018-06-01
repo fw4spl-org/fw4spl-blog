@@ -1,0 +1,87 @@
+= FW4SPL 16.1.0 released
+:hp-tags: fw4spl, release
+
+We are glad to announce the last major release https://github.com/fw4spl-org/fw4spl-git/releases/tag/16.1.0[*16.1.0* of *FW4SPL*] !!!
+
+We have been a bit silent on these pages during several months but FW4SPL development has never stopped. The last post was about the release 12.0.1, so I'll try so sum up what happened in the previous releases.
+
+
+== FW4SPL 13.0.0
+
+=== Fixes from Debian
+
+We imported existing patches from our debian package. This help us to follow more standard practices. 
+
+Regarding this, we made a major change in the way we manage our bundles location. We can now specify two directories to specify the paths to the libraries and the resources. This way, we can install bundles libraries in `lib/` and resources in `share` as it is recommended on gnu based platforms. 
+
+== Generic scenes
+
+The VTK and Qt _(scene2D)_ generic scenes used to be a specific case inside the framework. Adaptors were services, but behave differently and their life cycle was managed by a specific service manager. With the introduction of `AppConfig2` in *11.0.3*, regular services became able to start and stop depending on the availability of their data, a bit like adaptors. Actually we got inspired by adaptors in this past rework. That's why it was obvious at some point that adaptors should become regular services. That was already the case in the more https://github.com/fw4spl-org/fw4spl-ogre[experimental ogre3D based scene].
+
+Thus we put a lot of efforts this summer on this rework and we also harmonized the API and the internal code of VTK, Qt and Ogre3D scenes. You can have a look at the http://fw4spl.readthedocs.io/en/12.0.1/SAD/src/SDM-SAD-GenericScene.html[generic scene documentation] to see how it works now.
+
+
+== appXml discontinued, appXml2 promoted !
+
+The former `appXml` bundle disappeared and to make things simpler for new comers, we renamed `appXml2` to `appXml`. So there is no longer a distinction between those two ways of writing services and XML configurations.
+
+All applications, tutorials and samples now use this new standard.
+
+== Service configuration
+
+Few years ago, we started to experiment `::boost::property_tree::ptree` as an alternative to our own class `::fwRuntime::ConfigurationElement` to parse xml trees. We officially deprecate the latter in favor of `::boost::property_tree::ptree`, because the API is much nicer and new users are more likely to know its usage.
+
+For instance, the following code:
+
+[source,cpp]
+----
+if ( m_configuration->hasAttribute( "autoRender" ) )
+{
+  const std::string attr = m_configuration->getAttributeValue("attr");
+  const bool attrBool   = (attr == "true");
+  this->setMember(attrBool);
+}
+----
+can easily be replaced by:
+
+[source,cpp]
+----
+const bool attrBool = config.get<bool>("attr", true);
+this->setMember(attrBool);
+----
+
+== Better bitmap images support
+
+The service `::ioVTK::SImageReader` has gained support for common bitmap images. Previously we only handled `.vtk`, `.vti` or `.mhd`. We added a lot of formats like `.jpg`, `.png`, `.tiff`, which are rarely used to contain real medical images, but can still be useful in other cases, for instance when texturing meshes.
+
+== Parameters replacement in configuration
+
+In appXml2, you had to think twice when passing arguments to a sub-config with `SConfigController` and `SConfigLauncher`. You should either use `by` for raw strings or `uid` for service, object, or channels identifiers:
+
+[source,xml]
+----
+<parameter replace="label" by="patientName" />
+<parameter replace="subConfigChannel" uid="comChannel" />
+<parameter replace="actionService" uid="actionStart" />
+----
+
+Now, this ambiguity is removed and you can safely use `by` in any case:
+
+[source,xml]
+----
+<parameter replace="label" by="patientName" />
+<parameter replace="subConfigChannel" by="comChannel" />
+<parameter replace="actionService" by="actionStart" />
+----
+
+This should help to avoid headaches while building sub-configurations. And you can still use `uid` but be warned that it will be dropped at some point.
+
+
+== Third-party libraries
+
+As usual we try to keep up-to-date with the latest open-source software. FW4SPL 12.0.1 notably contains the following updates:
+
+- Qt 5.9
+- VTK 8.0
+
+

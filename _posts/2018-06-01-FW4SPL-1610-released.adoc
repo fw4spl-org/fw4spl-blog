@@ -14,6 +14,54 @@ We imported existing patches from our debian package. This help us to follow mor
 
 Regarding this, we made a major change in the way we manage our bundles location. We can now specify two directories to specify the paths to the libraries and the resources. This way, we can install bundles libraries in `lib/` and resources in `share` as it is recommended on gnu based platforms. 
 
+=== C++11 migration
+
+This is a big pass we started months ago to replace the usage `boost` in favor of standard C++11. We already made several passes, this is just an another one. Of course it concerns all repositories and MR are proposed everywhere.
+
+Here are the main replacements:
+
+- `::boost::thread` -> `std::thread`
+- `::boost::function` -> `std::function`
+- `::boost::*future` -> `std::*future`
+- `::boost::packaged_task` -> `std::packaged_task`
+- `::boost::ref` -> `std::ref`
+- `::boost::bind` -> `std::bind`
+- `::boost::chrono` -> `std::chrono`
+- `boost/cstdint/*` -> `<cstdint>`
+- `boost/type_traits/*` -> `<type_traits>`
+
+Exception handling on services slots (`start()`, `stop()`, `update`,...) has been improved. Now it is possible to catch an exception when a service fails to start for instance, and even better the service is in a valid stopped state and can be started again. This could help us for instance for network services when the connection fails, which avoid to code a specific internal state machine.
+
+
+=== Transfer function selection refactor
+
+The TFSelection composite has been removed from the services that display and edit transfer functions. These services now only use the current TF making everything much simpler.
+
+=== DICOM 3D
+- Integrated a contribution from https://www.visiblepatient.com/fr/[Visible Patient] to support  surface segmentations and anonymization
+- Add possibility to export DICOM 3D data from VRRender, using a new service SSurfaceSegmentationWriter.
+- Improve DICOM anonymizer (Tags are now externalized in SrcLib/fwGdcmIO/rc/tags.csv)
+
+=== OpenIGTL services refactor
+* Renamed the services to clarify the role of each ioIGTL service
+  ** SOpenIGTLinkListener → SClientListener
+  ** SOpenIGTLinkSender → SServerListener
+* Created the missing services and add the possibility to send/receive multiple objects:
+  ** SClientSender
+  ** SServerSender
+* Removed echoEdSimu bundle and associated components
+
+
+== FW4SPL 16.0.0
+
+=== Split some configurations
+
+We split the configuration bundles according to the dependencies:
+- dataManagerConfig: contains configuration for ImageManager and OrganManager, it does not depend on VTK
+
+- qtSceneConfig: contains the configuration for the TF widget, it depends on `scene2D`
+- imageConfig: depends on `scene2D` and `VTK`, it allows to use the managers and TF configs in applications that does not use VTK.
+
 == Generic scenes
 
 The VTK and Qt _(scene2D)_ generic scenes used to be a specific case inside the framework. Adaptors were services, but behave differently and their life cycle was managed by a specific service manager. With the introduction of `AppConfig2` in *11.0.3*, regular services became able to start and stop depending on the availability of their data, a bit like adaptors. Actually we got inspired by adaptors in this past rework. That's why it was obvious at some point that adaptors should become regular services. That was already the case in the more https://github.com/fw4spl-org/fw4spl-ogre[experimental ogre3D based scene].
@@ -49,10 +97,6 @@ can easily be replaced by:
 const bool attrBool = config.get<bool>("attr", true);
 this->setMember(attrBool);
 ----
-
-== Better bitmap images support
-
-The service `::ioVTK::SImageReader` has gained support for common bitmap images. Previously we only handled `.vtk`, `.vti` or `.mhd`. We added a lot of formats like `.jpg`, `.png`, `.tiff`, which are rarely used to contain real medical images, but can still be useful in other cases, for instance when texturing meshes.
 
 == Parameters replacement in configuration
 

@@ -1,0 +1,170 @@
+= FW4SPL 16.1 released
+:hp-tags: fw4spl, release
+
+We are glad to announce the last major release https://github.com/fw4spl-org/fw4spl-git/releases/tag/16.1.0[*16.1* of *FW4SPL*] !!!
+
+We have been a bit silent on these pages during several months but FW4SPL development has never stopped. The last post was about the release 12.0.1, so I'll try so sum up what happened in the previous releases.
+
+
+== FW4SPL 13.0
+
+=== Fixes from Debian
+
+We imported existing patches from our debian package. This help us to follow more standard practices. 
+
+Regarding this, we made a major change in the way we manage our bundles location. We can now specify two directories to specify the paths to the libraries and the resources. This way, we can install bundles libraries in `lib/` and resources in `share` as it is recommended on gnu based platforms. 
+
+=== C++11 migration
+
+This is a big pass we started months ago to replace the usage `boost` in favor of standard C++11. We already made several passes, this is just an another one. Of course it concerns all repositories and MR are proposed everywhere.
+
+Here are the main replacements:
+
+- `::boost::thread` -> `std::thread`
+- `::boost::function` -> `std::function`
+- `::boost::*future` -> `std::*future`
+- `::boost::packaged_task` -> `std::packaged_task`
+- `::boost::ref` -> `std::ref`
+- `::boost::bind` -> `std::bind`
+- `::boost::chrono` -> `std::chrono`
+- `boost/cstdint/*` -> `<cstdint>`
+- `boost/type_traits/*` -> `<type_traits>`
+
+Exception handling on services slots (`start()`, `stop()`, `update`,...) has been improved. Now it is possible to catch an exception when a service fails to start for instance, and even better the service is in a valid stopped state and can be started again. This could help us for instance for network services when the connection fails, which avoid to code a specific internal state machine.
+
+
+=== Transfer function selection refactor
+
+The TFSelection composite has been removed from the services that display and edit transfer functions. These services now only use the current TF making everything much simpler.
+
+=== DICOM 3D
+- Integrated a contribution from https://www.visiblepatient.com/fr/[Visible Patient] to support  surface segmentations and anonymization
+- Add possibility to export DICOM 3D data from VRRender, using a new service SSurfaceSegmentationWriter.
+- Improve DICOM anonymizer (Tags are now externalized in SrcLib/fwGdcmIO/rc/tags.csv)
+
+=== SGrabberProxy
+
+This service is a proxy between the application and video grabber implementation. This allows _some_ genericity with regards to the grabber. Its configuration and its behavior are similar to IOSelector, but for frame grabbers. However, please note that this is a first implementation and it does not cover yet all of our use cases.
+
+
+=== OpenIGTL services refactor
+* Renamed the services to clarify the role of each ioIGTL service
+  ** SOpenIGTLinkListener → SClientListener
+  ** SOpenIGTLinkSender → SServerListener
+* Created the missing services and add the possibility to send/receive multiple objects:
+  ** SClientSender
+  ** SServerSender
+* Removed echoEdSimu bundle and associated components
+
+== FW4SPL 13.1
+
+=== IActionSrv
+
+Added signals to communicate action state:
+
+- Emit enabled/disabled signals when the action is executable/unexecutable
+- Emit checked/unchecked signals when the action is activated/deactivated
+
+=== PointList helper
+
+The functions are:
+
+- computeDistance between two points lists
+- transform a list of points by a given transform
+- associate two point lists together
+
+=== RGBD video grabber
+
+RGBD support has been added to `SGrabberProxy`. Also, new RGBD grabbers can be also used as
+simple RGB grabbers, when you want to use only the color RGB sensor.
+
+=== ARLcore
+
+Our legacy mathematical library has been removed from `fw4spl-ar` and support is discontinued. In the last months, we manage to replace its usage mostly by OpenCV and so there was no reason to keep it. 
+
+=== Changes in fw4spl-ogre
+
+We introduced a new adaptor `SPointList` to display `::fwData::PointList` with *Ogre3D*. 
+
+We also committed some fixes:
+
+- Quad-based meshes with vertex colors are now displayed properly (colors and normals were inverted)
+- `SVideo` now reacts to calibration changes
+- `SVideo` display when using a calibration is fixed (for instance in **ARBreathingExt**)
+- `SCamera` no longer crashes if a non calibrated camera is given
+- `SRender` can now use transparency on any layer
+- `SMesh` implements "Hide all" feature of the organ manager
+
+== FW4SPL 14.0
+
+=== Timeouts in unit-tests
+
+When removing the global usage of `::boost::thread` in our code, we misreplaced some code that check that a threaded function has terminated. This code was designed to timeout if a thread failed to join. The new code first wait the required time, then join. Thus the function could never timeout and on top of that it slowed down all the tests using this function since it always waited. This was rewritten using `std::future` and thus a whole utility class is now useless and has been removed.
+
+=== RGBD emulation in SGrabberProxy
+
+We made `SGrabberProxy` smarter than ever. When requesting a RGBD grabber, it can propose you to use two RGB grabbers to emulate a single RGBD grabber. This allows you to have a single RGBD grabber in your application, thus you no longer have to keep a grabber for live camera and two grabbers (most often OpenCV) for pre-recorded sequences.
+
+=== PnPSolverFor2d3dRegistration
+
+Try out this new PnP Solver for 2d-3d Registration !
+
+=== Point clouds picking in Ogre
+
+It is now possible to pick point clouds with mouse interactions. The overall ray-casting code has been improved as well.
+
+== FW4SPL 15.0
+
+
+
+=== Improve version selection when saving a data
+
+By default you can only select the last version of each repo.
+If you want the whole list, you may click on the "Advanced" button and get the usual list (but at least this time it is sorted :slight_smile: )
+To achieve this, I added a method in `fwGui::SelectorDialog` that already existed in `fwGuiQt::MessageDialog` to add custom buttons. But of course I did it at the generic level and not directly with Qt. And I cleaned the usage of this method in `fwGuiQt::MessageDialog` by the way, which allowed to remove the Qt dependency from `ioGdcm`.
+
+== FW4SPL 16.0
+
+=== Split some configurations
+
+We split the configuration bundles according to the dependencies:
+- dataManagerConfig: contains configuration for ImageManager and OrganManager, it does not depend on VTK
+
+- qtSceneConfig: contains the configuration for the TF widget, it depends on `scene2D`
+- imageConfig: depends on `scene2D` and `VTK`, it allows to use the managers and TF configs in applications that does not use VTK.
+
+
+== Service configuration
+
+Few years ago, we started to experiment `::boost::property_tree::ptree` as an alternative to our own class `::fwRuntime::ConfigurationElement` to parse xml trees. We officially deprecate the latter in favor of `::boost::property_tree::ptree`, because the API is much nicer and new users are more likely to know its usage.
+
+For instance, the following code:
+
+[source,cpp]
+----
+if ( m_configuration->hasAttribute( "autoRender" ) )
+{
+  const std::string attr = m_configuration->getAttributeValue("attr");
+  const bool attrBool   = (attr == "true");
+  this->setMember(attrBool);
+}
+----
+can easily be replaced by:
+
+[source,cpp]
+----
+const bool attrBool = config.get<bool>("attr", true);
+this->setMember(attrBool);
+----
+
+== FW4SPL 16.1
+
+== Third-party libraries
+
+As usual we try to keep up-to-date with the latest open-source software. FW4SPL 12.0.1 notably contains the following updates:
+
+- Qt 5.9.4
+- OpenIGTLink 2.1
+- ITK 4.13
+
+

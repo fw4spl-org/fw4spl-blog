@@ -3,7 +3,7 @@
 
 We are glad to announce the last major release https://github.com/fw4spl-org/fw4spl-git/releases/tag/16.1.0[*16.1* of *FW4SPL*] !!!
 
-We have been a bit silent on these pages during several months but FW4SPL development has never stopped. The last post was about the release 12.0.1, so I'll try so sum up what happened in the previous releases.
+We have been a bit silent on these pages during several months but FW4SPL development has never stopped. The last post was about the release 12.0.1, so I'll try so sum up the important changes in the previous releases.
 
 
 == FW4SPL 13.0
@@ -73,15 +73,6 @@ The functions are:
 - transform a list of points by a given transform
 - associate two point lists together
 
-=== RGBD video grabber
-
-RGBD support has been added to `SGrabberProxy`. Also, new RGBD grabbers can be also used as
-simple RGB grabbers, when you want to use only the color RGB sensor.
-
-=== ARLcore
-
-Our legacy mathematical library has been removed from `fw4spl-ar` and support is discontinued. In the last months, we manage to replace its usage mostly by OpenCV and so there was no reason to keep it. 
-
 === Changes in fw4spl-ogre
 
 We introduced a new adaptor `SPointList` to display `::fwData::PointList` with *Ogre3D*. 
@@ -96,6 +87,17 @@ We also committed some fixes:
 - `SMesh` implements "Hide all" feature of the organ manager
 
 == FW4SPL 14.0
+
+=== RGBD video grabber
+
+RGBD support has been added to `SGrabberProxy`. Also, new RGBD grabbers can be also used as
+simple RGB grabbers, when you want to use only the color RGB sensor.
+
+=== ARLcore
+
+Our legacy mathematical library has been removed from `fw4spl-ar` and support is discontinued. In the last months, we manage to replace its usage mostly by OpenCV and so there was no reason to keep it. 
+
+== FW4SPL 15.0
 
 === Timeouts in unit-tests
 
@@ -113,17 +115,20 @@ Try out this new PnP Solver for 2d-3d Registration !
 
 It is now possible to pick point clouds with mouse interactions. The overall ray-casting code has been improved as well.
 
-== FW4SPL 15.0
-
-
+== FW4SPL 16.0
 
 === Improve version selection when saving a data
 
-By default you can only select the last version of each repo.
-If you want the whole list, you may click on the "Advanced" button and get the usual list (but at least this time it is sorted :slight_smile: )
-To achieve this, I added a method in `fwGui::SelectorDialog` that already existed in `fwGuiQt::MessageDialog` to add custom buttons. But of course I did it at the generic level and not directly with Qt. And I cleaned the usage of this method in `fwGuiQt::MessageDialog` by the way, which allowed to remove the Qt dependency from `ioGdcm`.
+Saving a patient folder could gave you headache because of the data version selection window, which proposed you all the possible versions, unsorted. Now by default you can only select the last version of each repository.
+If you want the whole list, you may click on the "Advanced" button and get the usual list (but at least this time it is sorted ;-) ).
 
-== FW4SPL 16.0
+=== DCMTK cleaning
+
+Useless DCMTK services, libs and an utility using DicomSeries in fw4spl:
+
+- removed ioDcmtk::SDicomSeriesDBReader and associated class in fwDcmtkIO
+- removed ioDcmtk::SDicomTagSeriesDBReader and associated class in fwDcmtkIO
+- removed weird DicomMetadatJsonGenerator utility
 
 === Split some configurations
 
@@ -133,38 +138,59 @@ We split the configuration bundles according to the dependencies:
 - qtSceneConfig: contains the configuration for the TF widget, it depends on `scene2D`
 - imageConfig: depends on `scene2D` and `VTK`, it allows to use the managers and TF configs in applications that does not use VTK.
 
+=== MacOs support on fw4spl-ogre
 
-== Service configuration
+We fixed the most annoying bugs on MacOs:
 
-Few years ago, we started to experiment `::boost::property_tree::ptree` as an alternative to our own class `::fwRuntime::ConfigurationElement` to parse xml trees. We officially deprecate the latter in favor of `::boost::property_tree::ptree`, because the API is much nicer and new users are more likely to know its usage.
-
-For instance, the following code:
-
-[source,cpp]
-----
-if ( m_configuration->hasAttribute( "autoRender" ) )
-{
-  const std::string attr = m_configuration->getAttributeValue("attr");
-  const bool attrBool   = (attr == "true");
-  this->setMember(attrBool);
-}
-----
-can easily be replaced by:
-
-[source,cpp]
-----
-const bool attrBool = config.get<bool>("attr", true);
-this->setMember(attrBool);
-----
+- Meshes containing quads are now displayed
+- Application no longer crashes when a SCamera has a calibration input
+- Flat shading no longer makes an application crashing
+- Transparency technique can now be switched at runtime without any rendering artifact
+- Application with both Ogre and VTK should work well
+- Volume rendering display is ok on Retina screens
 
 == FW4SPL 16.1
 
-== Third-party libraries
+=== DicomWeb support
 
-As usual we try to keep up-to-date with the latest open-source software. FW4SPL 12.0.1 notably contains the following updates:
+Add new Library fwNetworkIO:
+
+- Update the code of the library.
+- Add Series helper to the library.
+- Add unit tests to the library.
+
+Add new bundle `ioDicomWeb` that:
+
+- Retrieve from Orthanc if a PatientName or a Date range is specified.
+- Pull the DICOM files from the Orthanc PACS.
+- Pull an instance of a DICOM (for preview purpose with a slider).
+
+=== Transfer function GPU upload refactor
+
+This a refactor about the way we upload the transfer function to the GPU in `fw4spl-ogre`.
+So far, we used to employ a 256x256 texture. We consider that it covers a range of intensity values from -32768 to +32767. This required no offset computation in the fragment shader and we could directly fetch the TF with the intensity value. However this solution is rather poor when you have a small range of intensities. Indeed in this case discretization effects may appear, and we can't use hardware bilinear filtering because we would average with the intensities of the upper or lower row.
+
+We propose here a simpler solution. We use a 1D texture, with the maximum range the graphics hardware and the driver allows us. On recent hardware, it is 16384 pixels. Since we can then benefit from hardware bilinear interpolation filtering, this seems sufficient. And eventually, there is not extra overhead in the shader, we just need a special care to pass the tf window in all fragment shaders using a TF.
+
+=== Text support in fw4spl-ogre
+
+Implements text rendering :
+
+* Adds a `fwRenderOgre::Text` that can be attached to scene nodes and follow a 3D object.
+* Adds a couple of helper functions for font loading.
+* Refactors overlay configuration in `::fwRenderOgre::SRender`,
+overlay scripts can be directly set instead of enabling the hard-coded `LogoOverlay` script.
+* Adds axis labels to the `SAxis` adaptor as an example.
+
+=== Third-party libraries
+
+As usual we try to keep up-to-date with the latest open-source software. FW4SPL 16.1.0 notably contains the following updates:
 
 - Qt 5.9.4
 - OpenIGTLink 2.1
 - ITK 4.13
-
+- Ogre3D 1.10.11
+- GDCM 2.8.4
+- DCMTK 
+- OpenCV 3.4
 

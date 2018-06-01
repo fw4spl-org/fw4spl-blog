@@ -42,6 +42,11 @@ The TFSelection composite has been removed from the services that display and ed
 - Add possibility to export DICOM 3D data from VRRender, using a new service SSurfaceSegmentationWriter.
 - Improve DICOM anonymizer (Tags are now externalized in SrcLib/fwGdcmIO/rc/tags.csv)
 
+=== SGrabberProxy
+
+This service is a proxy between the application and video grabber implementation. This allows _some_ genericity with regards to the grabber. Its configuration and its behavior are similar to IOSelector, but for frame grabbers. However, please note that this is a first implementation and it does not cover yet all of our use cases.
+
+
 === OpenIGTL services refactor
 * Renamed the services to clarify the role of each ioIGTL service
   ** SOpenIGTLinkListener → SClientListener
@@ -68,6 +73,15 @@ The functions are:
 - transform a list of points by a given transform
 - associate two point lists together
 
+=== RGBD video grabber
+
+RGBD support has been added to `SGrabberProxy`. Also, new RGBD grabbers can be also used as
+simple RGB grabbers, when you want to use only the color RGB sensor.
+
+=== ARLcore
+
+Our legacy mathematical library has been removed from `fw4spl-ar` and support is discontinued. In the last months, we manage to replace its usage mostly by OpenCV and so there was no reason to keep it. 
+
 === Changes in fw4spl-ogre
 
 We introduced a new adaptor `SPointList` to display `::fwData::PointList` with *Ogre3D*. 
@@ -82,6 +96,22 @@ We also committed some fixes:
 - `SMesh` implements "Hide all" feature of the organ manager
 
 == FW4SPL 14.0.0
+
+=== Timeouts in unit-tests
+
+When removing the global usage of `::boost::thread` in our code, we misreplaced some code that check that a threaded function has terminated. This code was designed to timeout if a thread failed to join. The new code first wait the required time, then join. Thus the function could never timeout and on top of that it slowed down all the tests using this function since it always waited. This was rewritten using `std::future` and thus a whole utility class is now useless and has been removed.
+
+=== RGBD emulation in SGrabberProxy
+
+We made `SGrabberProxy` smarter than ever. When requesting a RGBD grabber, it can propose you to use two RGB grabbers to emulate a single RGBD grabber. This allows you to have a single RGBD grabber in your application, thus you no longer have to keep a grabber for live camera and two grabbers (most often OpenCV) for pre-recorded sequences.
+
+=== PnPSolverFor2d3dRegistration
+
+Try out this new PnP Solver for 2d-3d Registration !
+
+=== Point clouds picking in Ogre
+
+It is now possible to pick point clouds with mouse interactions. The overall ray-casting code has been improved as well.
 
 == FW4SPL 16.0.0
 

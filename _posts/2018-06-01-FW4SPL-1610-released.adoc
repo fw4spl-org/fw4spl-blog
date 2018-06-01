@@ -51,6 +51,37 @@ The TFSelection composite has been removed from the services that display and ed
   ** SServerSender
 * Removed echoEdSimu bundle and associated components
 
+== FW4SPL 13.1.0
+
+=== IActionSrv
+
+Added signals to communicate action state:
+
+- Emit enabled/disabled signals when the action is executable/unexecutable
+- Emit checked/unchecked signals when the action is activated/deactivated
+
+=== PointList helper
+
+The functions are:
+
+- computeDistance between two points lists
+- transform a list of points by a given transform
+- associate two point lists together
+
+=== Changes in fw4spl-ogre
+
+We introduced a new adaptor `SPointList` to display `::fwData::PointList` with *Ogre3D*. 
+
+We also committed some fixes:
+
+- Quad-based meshes with vertex colors are now displayed properly (colors and normals were inverted)
+- `SVideo` now reacts to calibration changes
+- `SVideo` display when using a calibration is fixed (for instance in **ARBreathingExt**)
+- `SCamera` no longer crashes if a non calibrated camera is given
+- `SRender` can now use transparency on any layer
+- `SMesh` implements "Hide all" feature of the organ manager
+
+== FW4SPL 14.0.0
 
 == FW4SPL 16.0.0
 
@@ -61,6 +92,8 @@ We split the configuration bundles according to the dependencies:
 
 - qtSceneConfig: contains the configuration for the TF widget, it depends on `scene2D`
 - imageConfig: depends on `scene2D` and `VTK`, it allows to use the managers and TF configs in applications that does not use VTK.
+
+
 
 == Generic scenes
 

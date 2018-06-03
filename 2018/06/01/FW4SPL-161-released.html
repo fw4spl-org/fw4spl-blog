@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>FW4SPL 16.1 released</title>
+    <meta name="description" content="" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/assets/css/screen.css?v=1.0.0" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+
+    <link rel="canonical" href="https://fw4spl-org.github.io/fw4spl-blog/2018/06/01/FW4SPL-161-released.html" />
+    
+    <meta property="og:site_name" content="FW4SPL" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="FW4SPL 16.1 released" />
+    <meta property="og:description" content="We are glad to announce the last major release 16.1 of FW4SPL !!! We have been a bit silent on these pages during several months but FW4SPL development has never stopped. The last post was about the release 12.0...." />
+    <meta property="og:url" content="https://fw4spl-org.github.io/fw4spl-blog/2018/06/01/FW4SPL-161-released.html" />
+    <meta property="article:published_time" content="2018-05-31T22:00:00.000Z" />
+    <meta property="article:modified_time" content="2018-06-03T18:49:56.550Z" />
+    <meta property="article:tag" content="fw4spl" />
+    <meta property="article:tag" content="release" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="FW4SPL 16.1 released" />
+    <meta name="twitter:description" content="We are glad to announce the last major release 16.1 of FW4SPL !!! We have been a bit silent on these pages during several months but FW4SPL development has never stopped. The last post was about the release 12.0...." />
+    <meta name="twitter:url" content="https://fw4spl-org.github.io/fw4spl-blog/2018/06/01/FW4SPL-161-released.html" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "FW4SPL",
+    "author": {
+        "@type": "Person",
+        "name": "Flavien Bridault",
+        "image": "https://avatars0.githubusercontent.com/u/8638653?v=4",
+        "url": "undefined/author/undefined",
+        "sameAs": "http://www.ircad.fr"
+    },
+    "headline": "FW4SPL 16.1 released",
+    "url": "https://fw4spl-org.github.io/fw4spl-blog/2018/06/01/FW4SPL-161-released.html",
+    "datePublished": "2018-05-31T22:00:00.000Z",
+    "dateModified": "2018-06-03T18:49:56.550Z",
+    "keywords": "fw4spl,  release",
+    "description": "We are glad to announce the last major release 16.1 of FW4SPL !!! We have been a bit silent on these pages during several months but FW4SPL development has never stopped. The last post was about the release 12.0...."
+}
+    </script>
+
+    <meta name="generator" content="Ghost ?" />
+    <link rel="alternate" type="application/rss+xml" title="FW4SPL" href="https://fw4spl-org.github.io/fw4spl-blog/rss" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+</head>
+<body class="post-template tag-fw4spl tag-release">
+
+    
+
+
+<header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="https://fw4spl-org.github.io/fw4spl-blog">Home</a>
+        <!-- <a class="subscribe-button icon-feed" href="https://fw4spl-org.github.io/fw4spl-blog/rss/">Subscribe</a> -->
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post tag-fw4spl tag-release">
+
+        <header class="post-header">
+            <h1 class="post-title">FW4SPL 16.1 released</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2018-06-01">01 June 2018</time>  on <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/fw4spl">fw4spl</a>, <a href="https://fw4spl-org.github.io/fw4spl-blog/tag/release"> release</a>
+            </section>
+        </header>
+
+        <section class="post-content">
+            <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>We are glad to announce the last major release <a href="https://github.com/fw4spl-org/fw4spl-git/releases/tag/16.1.0"><strong>16.1</strong> of <strong>FW4SPL</strong></a> !!!</p>
+</div>
+<div class="paragraph">
+<p>We have been a bit silent on these pages during several months but FW4SPL development has never stopped. The last post was about the release 12.0.1, so I&#8217;ll try so sum up the important changes in the previous releases.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fw4spl_13_0">FW4SPL 13.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixes_from_debian">Fixes from Debian</h3>
+<div class="paragraph">
+<p>We imported existing patches from our debian package. This help us to follow more standard practices.</p>
+</div>
+<div class="paragraph">
+<p>Regarding this, we made a major change in the way we manage our bundles location. We can now specify two directories to specify the paths to the libraries and the resources. This way, we can install bundles libraries in <code>lib/</code> and resources in <code>share</code> as it is recommended on gnu based platforms.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_c_11_migration">C++11 migration</h3>
+<div class="paragraph">
+<p>This is a big pass we started months ago to replace the usage <code>boost</code> in favor of standard C++11. We already made several passes, this is just an another one. Of course it concerns all repositories and MR are proposed everywhere.</p>
+</div>
+<div class="paragraph">
+<p>Here are the main replacements:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>::boost::thread</code> &#8594; <code>std::thread</code></p>
+</li>
+<li>
+<p><code>::boost::function</code> &#8594; <code>std::function</code></p>
+</li>
+<li>
+<p><code>::boost::*future</code> &#8594; <code>std::*future</code></p>
+</li>
+<li>
+<p><code>::boost::packaged_task</code> &#8594; <code>std::packaged_task</code></p>
+</li>
+<li>
+<p><code>::boost::ref</code> &#8594; <code>std::ref</code></p>
+</li>
+<li>
+<p><code>::boost::bind</code> &#8594; <code>std::bind</code></p>
+</li>
+<li>
+<p><code>::boost::chrono</code> &#8594; <code>std::chrono</code></p>
+</li>
+<li>
+<p><code>boost/cstdint/*</code> &#8594; <code>&lt;cstdint&gt;</code></p>
+</li>
+<li>
+<p><code>boost/type_traits/*</code> &#8594; <code>&lt;type_traits&gt;</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Exception handling on services slots (<code>start()</code>, <code>stop()</code>, <code>update</code>,&#8230;&#8203;) has been improved. Now it is possible to catch an exception when a service fails to start for instance, and even better the service is in a valid stopped state and can be started again. This could help us for instance for network services when the connection fails, which avoid to code a specific internal state machine.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transfer_function_selection_refactor">Transfer function selection refactor</h3>
+<div class="paragraph">
+<p>The TFSelection composite has been removed from the services that display and edit transfer functions. These services now only use the current TF making everything much simpler.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dicom_3d">DICOM 3D</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Integrated a contribution from <a href="https://www.visiblepatient.com/fr/">Visible Patient</a> to support  surface segmentations and anonymization</p>
+</li>
+<li>
+<p>Add possibility to export DICOM 3D data from VRRender, using a new service SSurfaceSegmentationWriter.</p>
+</li>
+<li>
+<p>Improve DICOM anonymizer (Tags are now externalized in SrcLib/fwGdcmIO/rc/tags.csv)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sgrabberproxy">SGrabberProxy</h3>
+<div class="paragraph">
+<p>This service is a proxy between the application and video grabber implementation. This allows <em>some</em> genericity with regards to the grabber. Its configuration and its behavior are similar to IOSelector, but for frame grabbers. However, please note that this is a first implementation and it does not cover yet all of our use cases.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_openigtl_services_refactor">OpenIGTL services refactor</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Renamed the services to clarify the role of each ioIGTL service</p>
+<div class="ulist">
+<ul>
+<li>
+<p>SOpenIGTLinkListener → SClientListener</p>
+</li>
+<li>
+<p>SOpenIGTLinkSender → SServerListener</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Created the missing services and add the possibility to send/receive multiple objects:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>SClientSender</p>
+</li>
+<li>
+<p>SServerSender</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Removed echoEdSimu bundle and associated components</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fw4spl_13_1">FW4SPL 13.1</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_iactionsrv">IActionSrv</h3>
+<div class="paragraph">
+<p>Added signals to communicate action state:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Emit enabled/disabled signals when the action is executable/unexecutable</p>
+</li>
+<li>
+<p>Emit checked/unchecked signals when the action is activated/deactivated</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pointlist_helper">PointList helper</h3>
+<div class="paragraph">
+<p>The functions are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>computeDistance between two points lists</p>
+</li>
+<li>
+<p>transform a list of points by a given transform</p>
+</li>
+<li>
+<p>associate two point lists together</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changes_in_fw4spl_ogre">Changes in fw4spl-ogre</h3>
+<div class="paragraph">
+<p>We introduced a new adaptor <code>SPointList</code> to display <code>::fwData::PointList</code> with <strong>Ogre3D</strong>.</p>
+</div>
+<div class="paragraph">
+<p>We also committed some fixes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Quad-based meshes with vertex colors are now displayed properly (colors and normals were inverted)</p>
+</li>
+<li>
+<p><code>SVideo</code> now reacts to calibration changes</p>
+</li>
+<li>
+<p><code>SVideo</code> display when using a calibration is fixed (for instance in <strong>ARBreathingExt</strong>)</p>
+</li>
+<li>
+<p><code>SCamera</code> no longer crashes if a non calibrated camera is given</p>
+</li>
+<li>
+<p><code>SRender</code> can now use transparency on any layer</p>
+</li>
+<li>
+<p><code>SMesh</code> implements "Hide all" feature of the organ manager</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fw4spl_14_0">FW4SPL 14.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_rgbd_video_grabber">RGBD video grabber</h3>
+<div class="paragraph">
+<p>RGBD support has been added to <code>SGrabberProxy</code>. Also, new RGBD grabbers can be also used as
+simple RGB grabbers, when you want to use only the color RGB sensor.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_arlcore">ARLcore</h3>
+<div class="paragraph">
+<p>Our legacy mathematical library has been removed from <code>fw4spl-ar</code> and support is discontinued. In the last months, we manage to replace its usage mostly by OpenCV and so there was no reason to keep it.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fw4spl_15_0">FW4SPL 15.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_timeouts_in_unit_tests">Timeouts in unit-tests</h3>
+<div class="paragraph">
+<p>When removing the global usage of <code>::boost::thread</code> in our code, we misreplaced some code that check that a threaded function has terminated. This code was designed to timeout if a thread failed to join. The new code first wait the required time, then join. Thus the function could never timeout and on top of that it slowed down all the tests using this function since it always waited. This was rewritten using <code>std::future</code> and thus a whole utility class is now useless and has been removed.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rgbd_emulation_in_sgrabberproxy">RGBD emulation in SGrabberProxy</h3>
+<div class="paragraph">
+<p>We made <code>SGrabberProxy</code> smarter than ever. When requesting a RGBD grabber, it can propose you to use two RGB grabbers to emulate a single RGBD grabber. This allows you to have a single RGBD grabber in your application, thus you no longer have to keep a grabber for live camera and two grabbers (most often OpenCV) for pre-recorded sequences.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pnpsolverfor2d3dregistration">PnPSolverFor2d3dRegistration</h3>
+<div class="paragraph">
+<p>Try out this new PnP Solver for 2d-3d Registration !</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_point_clouds_picking_in_ogre">Point clouds picking in Ogre</h3>
+<div class="paragraph">
+<p>It is now possible to pick point clouds with mouse interactions. The overall ray-casting code has been improved as well.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fw4spl_16_0">FW4SPL 16.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_improve_version_selection_when_saving_a_data">Improve version selection when saving a data</h3>
+<div class="paragraph">
+<p>Saving a patient folder could gave you headache because of the data version selection window, which proposed you all the possible versions, unsorted. Now by default you can only select the last version of each repository.
+If you want the whole list, you may click on the "Advanced" button and get the usual list (but at least this time it is sorted ;-) ).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dcmtk_cleaning">DCMTK cleaning</h3>
+<div class="paragraph">
+<p>Useless DCMTK services, libs and an utility using DicomSeries in fw4spl:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>removed ioDcmtk::SDicomSeriesDBReader and associated class in fwDcmtkIO</p>
+</li>
+<li>
+<p>removed ioDcmtk::SDicomTagSeriesDBReader and associated class in fwDcmtkIO</p>
+</li>
+<li>
+<p>removed weird DicomMetadatJsonGenerator utility</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_split_some_configurations">Split some configurations</h3>
+<div class="paragraph">
+<p>We split the configuration bundles according to the dependencies:
+- dataManagerConfig: contains configuration for ImageManager and OrganManager, it does not depend on VTK</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>qtSceneConfig: contains the configuration for the TF widget, it depends on <code>scene2D</code></p>
+</li>
+<li>
+<p>imageConfig: depends on <code>scene2D</code> and <code>VTK</code>, it allows to use the managers and TF configs in applications that does not use VTK.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_macos_support_on_fw4spl_ogre">MacOs support on fw4spl-ogre</h3>
+<div class="paragraph">
+<p>We fixed the most annoying bugs on MacOs:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Meshes containing quads are now displayed</p>
+</li>
+<li>
+<p>Application no longer crashes when a SCamera has a calibration input</p>
+</li>
+<li>
+<p>Flat shading no longer makes an application crashing</p>
+</li>
+<li>
+<p>Transparency technique can now be switched at runtime without any rendering artifact</p>
+</li>
+<li>
+<p>Application with both Ogre and VTK should work well</p>
+</li>
+<li>
+<p>Volume rendering display is ok on Retina screens</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fw4spl_16_1">FW4SPL 16.1</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_dicomweb_support">DicomWeb support</h3>
+<div class="paragraph">
+<p>Add new Library fwNetworkIO:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Update the code of the library.</p>
+</li>
+<li>
+<p>Add Series helper to the library.</p>
+</li>
+<li>
+<p>Add unit tests to the library.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Add new bundle <code>ioDicomWeb</code> that:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Retrieve from Orthanc if a PatientName or a Date range is specified.</p>
+</li>
+<li>
+<p>Pull the DICOM files from the Orthanc PACS.</p>
+</li>
+<li>
+<p>Pull an instance of a DICOM (for preview purpose with a slider).</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_iservice_getobject_deprecated">IService::getObject deprecated</h3>
+<div class="paragraph">
+<p><code>getObject()</code> is still supported until <strong>fw4spl 20.0</strong> but a <strong>[deprecated]</strong> log is raised.
+Please fix your services/applications as soon as possible.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transfer_function_gpu_upload_refactor">Transfer function GPU upload refactor</h3>
+<div class="paragraph">
+<p>This a refactor about the way we upload the transfer function to the GPU in <code>fw4spl-ogre</code>.
+So far, we used to employ a 256x256 texture. We consider that it covers a range of intensity values from -32768 to +32767. This required no offset computation in the fragment shader and we could directly fetch the TF with the intensity value. However this solution is rather poor when you have a small range of intensities. Indeed in this case discretization effects may appear, and we can&#8217;t use hardware bilinear filtering because we would average with the intensities of the upper or lower row.</p>
+</div>
+<div class="paragraph">
+<p>We propose here a simpler solution. We use a 1D texture, with the maximum range the graphics hardware and the driver allows us. On recent hardware, it is 16384 pixels. Since we can then benefit from hardware bilinear interpolation filtering, this seems sufficient. And eventually, there is not extra overhead in the shader, we just need a special care to pass the tf window in all fragment shaders using a TF.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_text_support_in_fw4spl_ogre">Text support in fw4spl-ogre</h3>
+<div class="paragraph">
+<p>Implements text rendering :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Adds a <code>fwRenderOgre::Text</code> that can be attached to scene nodes and follow a 3D object.</p>
+</li>
+<li>
+<p>Adds a couple of helper functions for font loading.</p>
+</li>
+<li>
+<p>Refactors overlay configuration in <code>::fwRenderOgre::SRender</code>,
+overlay scripts can be directly set instead of enabling the hard-coded <code>LogoOverlay</code> script.</p>
+</li>
+<li>
+<p>Adds axis labels to the <code>SAxis</code> adaptor as an example.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_third_party_libraries">Third-party libraries</h3>
+<div class="paragraph">
+<p>As usual we try to keep up-to-date with the latest open-source software. FW4SPL 16.1.0 notably contains the following updates:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Qt 5.9.4</p>
+</li>
+<li>
+<p>OpenIGTLink 2.1</p>
+</li>
+<li>
+<p>ITK 4.13</p>
+</li>
+<li>
+<p>Ogre3D 1.10.11</p>
+</li>
+<li>
+<p>GDCM 2.8.4</p>
+</li>
+<li>
+<p>DCMTK</p>
+</li>
+<li>
+<p>OpenCV 3.4</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+        </section>
+
+        <footer class="post-footer">
+
+
+            <figure class="author-image">
+                <a class="img" href="" style="background-image: url(https://avatars0.githubusercontent.com/u/8638653?v=4)"><span class="hidden">Flavien Bridault's Picture</span></a>
+            </figure>
+
+            <section class="author">
+                <h4><a href="">Flavien Bridault</a></h4>
+
+                    <p>Read <a href="">more posts</a> by this author.</p>
+                <div class="author-meta">
+                    <span class="author-location icon-location">Strasbourg, France</span>
+                    <span class="author-link icon-link"><a href="http://www.ircad.fr">http://www.ircad.fr</a></span>
+                </div>
+            </section>
+
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="https://twitter.com/share?text=FW4SPL%2016.1%20released&amp;url=https://fw4spl-org.github.io/fw4spl-blog/2018/06/01/FW4SPL-161-released.html"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://fw4spl-org.github.io/fw4spl-blog/2018/06/01/FW4SPL-161-released.html"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https://fw4spl-org.github.io/fw4spl-blog/2018/06/01/FW4SPL-161-released.html"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+
+        </footer>
+
+
+        <section class="post-comments">
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+          var disqus_shortname = 'fw4spl'; // required: replace example with your forum shortname
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </section>
+
+
+    </article>
+
+</main>
+
+
+
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="https://fw4spl-org.github.io/fw4spl-blog">FW4SPL</a> &copy; 2018</section>
+        <section class="poweredby">Proudly published with <a href="http://hubpress.io">HubPress</a></section>
+    </footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();      
+      </script>
+
+    <script type="text/javascript" src="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/assets/js/jquery.fitvids.js?v=1.0.0"></script>
+    <script type="text/javascript" src="//fw4spl-org.github.io/fw4spl-blog/themes/Casper/assets/js/index.js?v=1.0.0"></script>
+
+</body>
+</html>

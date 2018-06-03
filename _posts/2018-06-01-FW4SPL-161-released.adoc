@@ -165,6 +165,11 @@ Add new bundle `ioDicomWeb` that:
 - Pull the DICOM files from the Orthanc PACS.
 - Pull an instance of a DICOM (for preview purpose with a slider).
 
+=== IService::getObject deprecated
+
+`getObject()` is still supported until **fw4spl 20.0** but a **[deprecated]** log is raised.
+Please fix your services/applications as soon as possible.
+
 === Transfer function GPU upload refactor
 
 This a refactor about the way we upload the transfer function to the GPU in `fw4spl-ogre`.

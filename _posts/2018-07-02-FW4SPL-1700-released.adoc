@@ -52,7 +52,6 @@ In a similar way to what has been done for the dependencies, new we explore the 
 
 === DICOM support 
 
-
 We still work hard to improve our integration of reading and writing DICOM images and segmentations. This time we added a reference to DICOM tags into fw4spl data, in order to use them to create back valid DICOM to save image and/or models.
 
 

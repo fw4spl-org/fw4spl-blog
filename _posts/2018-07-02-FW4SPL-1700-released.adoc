@@ -1,0 +1,127 @@
+= FW4SPL 17.0.0 released
+:hp-tags: fw4spl, release
+
+We are glad to announce the last major release https://github.com/fw4spl-org/fw4spl-git/releases/tag/17.0.0[*17.0.0* of *FW4SPL*] !
+
+Let's see what's inside.
+
+== Dependencies
+
+=== Simplified dependencies options
+
+With *fw4spl-deps*, thre is now an option for each additional source repository that gather all
+required dependencies. So we introduce:
+
+- ENABLE_AR
+- ENABLE_OGRE
+- ENABLE_EXTRAS
+
+To achieve this we move some dependencies. *cgogn*, *cryptopp*, *orbslam2* and
+*vlc* are promoted to fw4spl-deps. These dependencies are used widely so
+this seems reasonable. Now *fw4spl-ext-deps* only contains *aram*, so
+really experimental deps, making it useless for most people.
+
+Some obsolete deps were removed:
+
+- ann
+- curl
+
+=== Automatic discovery of additional dependencies
+
+Setting the CMake variable `ADDITIONAL_DEPS` was tedious and error-prone. Now we explore the folders at the same level of FW4SPL to find extra repositories. Then a CMake option, set to ON by default, is proposed to enable/disable the repository. This will make CMake configuration phase easier than ever !
+
+
+
+=== Updates
+
+- Qt 5.9.5
+
+== New features
+
+=== Automatic discovery of additional repositories
+
+In a similar way to what has been done for the dependencies, new we explore the folders at the same level of FW4SPL to find extra repositories. Then a CMake option, set to ON by default, is proposed to enable/disable the repository.
+
+=== DICOM support 
+
+
+We still work hard to improve our integration of reading and writing DICOM images and segmentations. This time we added a reference to DICOM tags into fw4spl data, in order to use them to create back valid DICOM to save image and/or models.
+
+
+=== SSignalShortcut
+
+A new SSignalShortcut service in fw4spl has been added. This service allows to map keys or combination of keys to the trigger of a signal.
+
+=== Charuco calibration
+
+We added a new ChArUco board activity calibration in ARCalibration:
+
+* New Bundle with services related to Charuco calibration
+* Brand new utility to generate charuco board.
+* New activity in *ARCalibration*
+* Both standard calibration and charuco calibration displays now reprojection error when calibration (intrinsic and extrinsic) is performed.
+* `videoCalibration` bundle was moved from `video/` folder to `calibration/` folder.
+
+=== Improve the synchronization for augmented-reality
+
+We reworked the way we synchronize the video frames and the extracted data in real-time.
+
+So far, we have made an extensive use of timelines. First the video grabbers store the frames in timelines. Then we process some algorithms on them and we store all the extracted data (markers, transforms, etc...) in timelines as well. At the end, we rely on ``::videoTools::SFrameMatrixSynchronizer``to pick frames, matrices, etc... at the same timestamp and give these synchronized objects to the renderer, i.e. the generic scene.
+
+However this does not work well. First this is very tedious to work with timelines, since we need to create a dedicated C++ class for each kind of data we want to manage. For some big data, like meshes, we never did it because this would consume too much memory. And some services are simply not well coded and work directly on the data instead of timelines, etc... Eventually, the renderer even screws up the synchronization since all updated objects request the rendering to be done.
+
+So we propose a different approach here. First we restrict the usage of timelines to synchronize video grabbers together, for instance when you
+use a camera with multiple sensors or simply several cameras. After that point, all algorithm process the data directly. A new data ``::arData::MarkerMap``is introduced to store a list of markers, since this was the only "data" that only existed in a "timeline" version. To synchronize the results of the algorithms, we propose a new service called `SSignalGate`. This service waits for several signals to be triggered before sending itself a signal, which indicates everyone before is done. This service is typically used to inform the renderer that it must send everything to the GPU right now. To achieve this, we introduced a new rendering mode in `::fwRenderVTK::SRender`.
+
+You can try Ex04SimpleARCV which uses the new design, but for now everything is backward compatible. But we strongly encourage to have a look at this
+very soon and try to port your application to benefit of this improvement.
+
+== Bug fixes
+
+=== Do not crash when clicking on the distance button in VRRender
+
+The service `::uiMeasurement::editor::Distance`was also cleaned a bit, and the unused configuration option 'placeInscene' was removed.
+
+=== Properly handle button actions when choosing camera device
+
+- Use accept() and reject QtDialog slots instead of our own onValidate() and generic close()
+- In SCamera, check the result of exec dialog window to check if it's canceled and don't continue to configure the camera if so.
+
+=== C++11 migration
+
+This is a big pass we started months ago to replace the usage `boost` in favor of standard C++11. We already made several passes, this is just an another one. Of course it concerns all repositories and MR are proposed everywhere.
+
+Here are the main replacements:
+
+- `::boost::thread` -> `std::thread`
+- `::boost::function` -> `std::function`
+- `::boost::*future` -> `std::*future`
+- `::boost::packaged_task` -> `std::packaged_task`
+- `::boost::ref` -> `std::ref`
+- `::boost::bind` -> `std::bind`
+- `::boost::chrono` -> `std::chrono`
+- `boost/cstdint/*` -> `<cstdint>`
+- `boost/type_traits/*` -> `<type_traits>`
+
+Exception handling on services slots (`start()`, `stop()`, `update`,...) has been improved. Now it is possible to catch an exception when a service fails to start for instance, and even better the service is in a valid stopped state and can be started again. This could help us for instance for network services when the connection fails, which avoid to code a specific internal state machine.
+
+
+
+[source,xml]
+----
+<parameter replace="label" by="patientName" />
+<parameter replace="subConfigChannel" uid="comChannel" />
+<parameter replace="actionService" uid="actionStart" />
+----
+
+Now, this ambiguity is removed and you can safely use `by` in any case:
+
+[source,xml]
+----
+<parameter replace="label" by="patientName" />
+<parameter replace="subConfigChannel" by="comChannel" />
+<parameter replace="actionService" by="actionStart" />
+----
+
+
+

@@ -201,7 +201,7 @@ h4, h5, h6 {
     -o-font-feature-settings: 'dlig' 1, 'liga' 1, 'lnum' 1, 'kern' 1;
     color: #2E2E2E;
     line-height: 1.15em;
-    margin: 0 0 0.4em 0;
+    margin: 0 0 1.1em 0;
     font-family: "Open Sans", sans-serif;
 }
 
@@ -214,6 +214,7 @@ h1 {
 h2 {
     font-size: 3.6rem;
     letter-spacing: -1px;
+    margin-top: 1em;
 }
 
 h3 {
@@ -245,7 +246,7 @@ p, ul, ol, dl {
     -webkit-font-feature-settings: 'liga' 1, 'onum' 1, 'kern' 1;
     -moz-font-feature-settings: 'liga' 1, 'onum' 1, 'kern' 1;
     -o-font-feature-settings: 'liga' 1, 'onum' 1, 'kern' 1;
-    margin: 0 0 1.75em 0;
+    margin: 0 0 1.15em 0;
 }
 
 ol, ul {
@@ -276,7 +277,7 @@ dl dd {
 }
 
 li {
-    margin: 0.4em 0;
+    margin: -0.85em 0 0 0;
 }
 
 li li {

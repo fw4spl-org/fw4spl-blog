@@ -13,7 +13,7 @@ You may also have noticed that we replaced _framework_ by _toolkit_ in the title
 
 Last and not least, we worked hard to provide binaries for the numerous dependencies of Sight thanks to https://conan.io/[Conan]. Currently, we support Linux Mint18, Windows 10 and MacOs. That means you will save hours of build time, which should really help people to evaluate Sight the first time, and make them more productive when they really use it. This is still an experimental feature though but we are stabilizing it for _Sight 18.1_. This already makes our life so much easier, that we plan to drop _sight-deps_ for _Sight 19.0_ and makes Conan packages the official way.
 
-In you want the whole changelog, please refer to the repository files:
+If you want the whole changelog, please refer to the repository files:
 
 - https://github.com/IRCAD-IHU/sight/blob/master/CHANGELOG.md
 - https://github.com/IRCAD-IHU/sight-deps/blob/master/CHANGELOG.md

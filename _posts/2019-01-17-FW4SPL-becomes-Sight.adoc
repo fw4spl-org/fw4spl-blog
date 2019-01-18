@@ -5,7 +5,7 @@ Hi folks,
 
 Lots of things happened since the last post ! It has been a while since we wanted to change the name of our framework into something that makes more sense. We finally found it and we are now proud to announce that FW4SPL was renamed into _Sight_, for **S**urgical **I**mage **G**uidance and **H**ealthcare **T**oolkit ! We kept the version numbering though, so the first version  is _Sight 18.0_.
 
-The blog URL has not changed yet, however we opened a new organization on https://github.com/IRCAD-IHU[GitHub] to host the new repositories. You said new repositories ? Yes ! The renaming is not only a cosmetic change. In our constant effort to make the software easier to use for developers, we merged all four open-source repositories into a single one ! So you longer need to clone multiple repositories, the new https://github.com/IRCAD-IHU[Sight] contains everything.
+The blog URL has not changed yet, however we opened a new organization on https://github.com/IRCAD-IHU[GitHub] to host the new repositories. You said new repositories ? Yes ! The renaming is not only a cosmetic change. In our constant effort to make the software easier to use for developers, we merged all four open-source repositories into a single one ! So you no longer need to clone multiple repositories, the new https://github.com/IRCAD-IHU[Sight] contains everything.
 
 Besides GitHub hosting, we opened our internal https://git.ircad.fr[GitLab] so that people can see the real activity of the team. However the licence model of GitLab does not allow us to have free community users, so for now you can only access it anonymously. That's why we still use GitHub to report issues and receive community contributions.
 
